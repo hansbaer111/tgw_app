@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:test_app/providers/providers.dart'; // Import providers
-import 'package:test_app/screens/admin/template_editor_screen.dart'; // Reusing for now, will be a dedicated exercise editor
+import 'package:test_app/screens/admin/create_edit_exercise_screen.dart'; // Import the new screen
+import 'package:test_app/services/database_service.dart'; // Import DatabaseService
 
 class ExerciseManagementScreen extends ConsumerWidget {
   const ExerciseManagementScreen({Key? key}) : super(key: key);
@@ -16,12 +17,58 @@ class ExerciseManagementScreen extends ConsumerWidget {
       ),
       body: globalExercises.when(
         data: (exercises) {
+          if (exercises.isEmpty) {
+            return const Center(child: Text('No exercises found.'));
+          }
           return ListView.builder(
             itemCount: exercises.length,
             itemBuilder: (context, index) {
               final exercise = exercises[index];
               return ListTile(
                 title: Text(exercise.name),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.edit),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CreateEditExerciseScreen(exercise: exercise),
+                          ),
+                        );
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () async {
+                        final bool? confirmDelete = await showDialog<bool>(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Confirm Delete'),
+                            content: Text('Are you sure you want to delete ${exercise.name}?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, false),
+                                child: const Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, true),
+                                child: const Text('Delete'),
+                              ),
+                            ],
+                          ),
+                        );
+
+                        if (confirmDelete == true) {
+                          await DatabaseService().deleteExercise(exercise.id);
+                          ref.refresh(globalExercisesProvider); // Refresh UI
+                        }
+                      },
+                    ),
+                  ],
+                ),
               );
             },
           );
@@ -31,11 +78,10 @@ class ExerciseManagementScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO: Navigate to a dedicated create/edit exercise screen
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const TemplateEditorScreen(), // Placeholder for now
+              builder: (context) => const CreateEditExerciseScreen(),
             ),
           );
         },

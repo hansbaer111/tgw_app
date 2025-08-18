@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:test_app/screens/client/trainingsplaene_tab.dart'; // Import TrainingsplaeneTab
+import 'package:test_app/screens/client/logbuch_tab.dart'; // Import LogbuchTab
+import 'package:test_app/screens/client/profile_tab.dart'; // Import ProfileTab
 
 class ClientMainScreen extends StatefulWidget {
   const ClientMainScreen({Key? key}) : super(key: key);
@@ -11,9 +14,9 @@ class _ClientMainScreenState extends State<ClientMainScreen> {
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    Text('Trainingspläne'),
-    Text('Logbuch'),
-    Text('Profil'),
+    TrainingsplaeneTab(), // Use the new tab widget
+    LogbuchTab(), // Use the new tab widget
+    ProfileTab(), // Use the new tab widget
   ];
 
   void _onItemTapped(int index) {

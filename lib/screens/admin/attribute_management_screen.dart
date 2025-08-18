@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:test_app/providers/providers.dart'; // Import providers
+import 'package:test_app/services/database_service.dart'; // Import DatabaseService
 
 class AttributeManagementScreen extends ConsumerStatefulWidget {
   const AttributeManagementScreen({Key? key}) : super(key: key);
@@ -95,6 +96,26 @@ class _AttributeManagementScreenState
     );
   }
 
+  Future<bool?> _confirmDelete(BuildContext context, String itemName) async {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Confirm Delete'),
+        content: Text('Are you sure you want to delete "$itemName"?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final attributes = ref.watch(adminAttributesProvider);
@@ -129,6 +150,9 @@ class _AttributeManagementScreenState
                       padding: const EdgeInsets.only(right: 20.0),
                       child: const Icon(Icons.delete, color: Colors.white),
                     ),
+                    confirmDismiss: (direction) async {
+                      return await _confirmDelete(context, item.name);
+                    },
                     onDismissed: (direction) async {
                       await ref.read(databaseServiceProvider).deleteMuscleGroup(item.name);
                       ref.refresh(adminAttributesProvider);
@@ -157,6 +181,9 @@ class _AttributeManagementScreenState
                       padding: const EdgeInsets.only(right: 20.0),
                       child: const Icon(Icons.delete, color: Colors.white),
                     ),
+                    confirmDismiss: (direction) async {
+                      return await _confirmDelete(context, item);
+                    },
                     onDismissed: (direction) async {
                       await ref.read(databaseServiceProvider).deleteMuscleGroup(item); // Assuming deleteMuscleGroup can handle string directly
                       ref.refresh(adminAttributesProvider);
@@ -185,6 +212,9 @@ class _AttributeManagementScreenState
                       padding: const EdgeInsets.only(right: 20.0),
                       child: const Icon(Icons.delete, color: Colors.white),
                     ),
+                    confirmDismiss: (direction) async {
+                      return await _confirmDelete(context, item);
+                    },
                     onDismissed: (direction) async {
                       await ref.read(databaseServiceProvider).deleteMuscleGroup(item);
                       ref.refresh(adminAttributesProvider);
@@ -213,6 +243,9 @@ class _AttributeManagementScreenState
                       padding: const EdgeInsets.only(right: 20.0),
                       child: const Icon(Icons.delete, color: Colors.white),
                     ),
+                    confirmDismiss: (direction) async {
+                      return await _confirmDelete(context, item.name);
+                    },
                     onDismissed: (direction) async {
                       await ref.read(databaseServiceProvider).deleteMuscleGroup(item.name); // Assuming deleteMuscleGroup can handle string directly
                       ref.refresh(adminAttributesProvider);

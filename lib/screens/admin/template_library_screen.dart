@@ -8,37 +8,38 @@ class TemplateLibraryScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final workoutTemplates = ref.watch(workoutTemplatesProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Template Library'),
       ),
-      body: ListView(
-        children: [
-          ListTile(
-            title: const Text('Template A'),
-            subtitle: const Text('Full Body Workout'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const TemplateEditorScreen(templateId: 'template_a_id'),
-                ),
+      body: workoutTemplates.when(
+        data: (templates) {
+          if (templates.isEmpty) {
+            return const Center(child: Text('No workout templates found.'));
+          }
+          return ListView.builder(
+            itemCount: templates.length,
+            itemBuilder: (context, index) {
+              final template = templates[index];
+              return ListTile(
+                title: Text(template.name),
+                subtitle: Text(template.description),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TemplateEditorScreen(templateId: template.id),
+                    ),
+                  );
+                },
               );
             },
-          ),
-          ListTile(
-            title: const Text('Template B'),
-            subtitle: const Text('Upper/Lower Split'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const TemplateEditorScreen(templateId: 'template_b_id'),
-                ),
-              );
-            },
-          ),
-        ],
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stackTrace) => Center(child: Text('Error: $error')),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

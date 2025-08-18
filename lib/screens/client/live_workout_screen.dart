@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:test_app/models/day_model.dart'; // Import DayModel
 import 'package:test_app/models/exercise_model.dart';
 import 'package:test_app/providers/providers.dart'; // Import providers
 import 'package:uuid/uuid.dart';
@@ -8,7 +9,8 @@ import 'package:test_app/models/workout_log_model.dart';
 import 'package:test_app/models/workout_set_model.dart'; // Import WorkoutSetModel
 
 class LiveWorkoutScreen extends ConsumerStatefulWidget {
-  const LiveWorkoutScreen({super.key});
+  final DayModel day; // Required DayModel parameter
+  const LiveWorkoutScreen({super.key, required this.day});
 
   @override
   ConsumerState<LiveWorkoutScreen> createState() => _LiveWorkoutScreenState();
@@ -75,15 +77,6 @@ class _LiveWorkoutScreenState extends ConsumerState<LiveWorkoutScreen> {
     // Create WorkoutLogModel
     final workoutLogId = const Uuid().v4();
 
-    // Convert _workoutExercises to List<WorkoutSetModel>
-    // This part needs careful consideration based on how you want to log exercises and sets.
-    // For simplicity, I'm creating a single WorkoutLogModel per exercise entry.
-    // If a single workout log should contain multiple exercises, the model needs adjustment.
-    // Assuming each entry in _workoutExercises corresponds to a single exercise with its sets.
-    // The WorkoutLogModel currently expects a single exerciseId and a list of WorkoutSetModel.
-    // This implies one WorkoutLogModel per exercise in a workout.
-
-    // Let's create a list of WorkoutLogModel, one for each exercise in _workoutExercises
     List<WorkoutLogModel> logsToSave = [];
     for (var entry in _workoutExercises) {
       final exercise = entry['exercise'] as ExerciseModel;
@@ -92,27 +85,24 @@ class _LiveWorkoutScreenState extends ConsumerState<LiveWorkoutScreen> {
           setNumber: 1, // Assuming one set for simplicity, adjust as needed
           reps: entry['reps'].toString(),
           rpe: 'N/A', // RPE not captured in UI, setting to N/A
-          // weight: entry['weight'], // WorkoutSetModel does not have weight
-          // duration: entry['duration'], // WorkoutSetModel does not have duration
         )
       ];
 
       logsToSave.add(WorkoutLogModel(
         id: const Uuid().v4(), // New ID for each log entry
         userId: user.uid,
-        dayId: 'manual_workout_day', // Placeholder
+        dayId: widget.day.name, // Use the day name from DayModel
         exerciseId: exercise.id,
         date: DateTime.now(),
         sets: sets,
-        notes: 'Manual workout entry', // Placeholder
+        notes: 'Manual workout entry for ${widget.day.name}', // Placeholder
         editHistory: [],
       ));
     }
 
     try {
-      // Assuming databaseService has a method to save a list of workout logs or individual logs
       for (var log in logsToSave) {
-        await databaseService.saveWorkoutLog(log); // You need to implement saveWorkoutLog in DatabaseService
+        await databaseService.saveWorkoutLog(log);
       }
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -129,11 +119,11 @@ class _LiveWorkoutScreenState extends ConsumerState<LiveWorkoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final exercisesAsyncValue = ref.watch(globalExercisesProvider); // Use globalExercisesProvider
+    final exercisesAsyncValue = ref.watch(globalExercisesProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Log New Workout'),
+        title: Text('Workout for ${widget.day.name}'), // Display workout day name
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
