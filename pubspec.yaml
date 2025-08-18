@@ -1,0 +1,46 @@
+name: test_app
+description: "A new Flutter project."
+publish_to: 'none' 
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0' # Ein empfohlener, stabilerer SDK-Bereich
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Firebase
+  firebase_core: ^2.32.0
+  cloud_firestore: ^4.17.5
+  firebase_auth: ^4.20.0
+
+  # State Management
+  flutter_riverpod: ^2.5.1
+
+  # UI Packages
+  cupertino_icons: ^1.0.8
+  table_calendar: ^3.1.2
+  fl_chart: ^0.68.0
+  vibration: ^1.9.0
+
+  # Data Modeling & Utilities
+  freezed_annotation: ^2.4.1
+  json_annotation: ^4.9.0
+  collection: ^1.18.0
+  uuid: ^4.4.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Code Quality
+  flutter_lints: ^4.0.0
+
+  # Code Generation
+  build_runner: ^2.4.11
+  freezed: ^2.5.2
+  json_serializable: ^6.8.0
+
+flutter:
+  uses-material-design: true

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1019816135958",
+    "project_id": "tgwapp-75d8b",
+    "storage_bucket": "tgwapp-75d8b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1019816135958:android:1beb4278b750cd4e59d437",
+        "android_client_info": {
+          "package_name": "com.example.test_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcSQY-_Kv6Qoy0ki1cyccP3e_8XmFDIHs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1019816135958:android:61fe44177729616459d437",
+        "android_client_info": {
+          "package_name": "de.tgw.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcSQY-_Kv6Qoy0ki1cyccP3e_8XmFDIHs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
