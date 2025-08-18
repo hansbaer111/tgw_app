@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:test_app/models/exercise_model.dart';
-import 'package:test_app/main.dart';
+import 'package:test_app/providers/providers.dart'; // Import providers
 import 'package:uuid/uuid.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:convert';
 import 'package:test_app/models/workout_log_model.dart';
-import 'package:test_app/screens/admin/exercise_library_screen.dart';
+import 'package:test_app/models/workout_set_model.dart'; // Import WorkoutSetModel
 
 class LiveWorkoutScreen extends ConsumerStatefulWidget {
   const LiveWorkoutScreen({super.key});
@@ -55,6 +54,7 @@ class _LiveWorkoutScreenState extends ConsumerState<LiveWorkoutScreen> {
 
   void _saveWorkout() async {
     if (_workoutExercises.isEmpty) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please add at least one exercise to save the workout.')),
       );
@@ -65,6 +65,7 @@ class _LiveWorkoutScreenState extends ConsumerState<LiveWorkoutScreen> {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('User not logged in. Cannot save workout.')),
       );
@@ -73,39 +74,53 @@ class _LiveWorkoutScreenState extends ConsumerState<LiveWorkoutScreen> {
 
     // Create WorkoutLogModel
     final workoutLogId = const Uuid().v4();
-    final List<String> exerciseLogIds = []; // This will store IDs of ExerciseInPlanModel or similar
 
-    // For simplicity, let's assume we are just storing the exercise details directly in the log for now.
-    // In a real app, you might create ExerciseInPlanModel and WorkoutSetModel instances.
-    // For now, I'll just store the raw data in the workout log.
-    // This part needs to be refined based on the actual data model for workout logs.
+    // Convert _workoutExercises to List<WorkoutSetModel>
+    // This part needs careful consideration based on how you want to log exercises and sets.
+    // For simplicity, I'm creating a single WorkoutLogModel per exercise entry.
+    // If a single workout log should contain multiple exercises, the model needs adjustment.
+    // Assuming each entry in _workoutExercises corresponds to a single exercise with its sets.
+    // The WorkoutLogModel currently expects a single exerciseId and a list of WorkoutSetModel.
+    // This implies one WorkoutLogModel per exercise in a workout.
 
-    // Let's assume `exerciseLogs` will store a JSON string representation of each exercise entry.
-    final List<String> exerciseLogs = _workoutExercises.map((e) => jsonEncode({
-      'exerciseId': (e['exercise'] as ExerciseModel).id,
-      'sets': e['sets'],
-      'reps': e['reps'],
-      'weight': e['weight'],
-      'duration': e['duration'],
-    })).toList();
+    // Let's create a list of WorkoutLogModel, one for each exercise in _workoutExercises
+    List<WorkoutLogModel> logsToSave = [];
+    for (var entry in _workoutExercises) {
+      final exercise = entry['exercise'] as ExerciseModel;
+      final sets = [
+        WorkoutSetModel(
+          setNumber: 1, // Assuming one set for simplicity, adjust as needed
+          reps: entry['reps'].toString(),
+          rpe: 'N/A', // RPE not captured in UI, setting to N/A
+          // weight: entry['weight'], // WorkoutSetModel does not have weight
+          // duration: entry['duration'], // WorkoutSetModel does not have duration
+        )
+      ];
 
-
-    final workoutLog = WorkoutLogModel(
-      id: workoutLogId,
-      userId: user.uid,
-      templateId: 'manual_workout', // Assuming a default template ID for manual workouts
-      date: DateTime.now(),
-      exerciseLogs: exerciseLogs,
-      editHistory: [], // No edit history for new log
-    );
+      logsToSave.add(WorkoutLogModel(
+        id: const Uuid().v4(), // New ID for each log entry
+        userId: user.uid,
+        dayId: 'manual_workout_day', // Placeholder
+        exerciseId: exercise.id,
+        date: DateTime.now(),
+        sets: sets,
+        notes: 'Manual workout entry', // Placeholder
+        editHistory: [],
+      ));
+    }
 
     try {
-      await databaseService.saveWorkoutLog(workoutLog);
+      // Assuming databaseService has a method to save a list of workout logs or individual logs
+      for (var log in logsToSave) {
+        await databaseService.saveWorkoutLog(log); // You need to implement saveWorkoutLog in DatabaseService
+      }
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Workout saved successfully!')),
       );
       Navigator.pop(context); // Go back to LogbookScreen
     } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to save workout: $e')),
       );
@@ -114,7 +129,7 @@ class _LiveWorkoutScreenState extends ConsumerState<LiveWorkoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final exercisesAsyncValue = ref.watch(exercisesProvider); // Assuming exercisesProvider is available
+    final exercisesAsyncValue = ref.watch(globalExercisesProvider); // Use globalExercisesProvider
 
     return Scaffold(
       appBar: AppBar(

@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AnalysisScreen extends StatefulWidget {
-  const AnalysisScreen({super.key});
+class AnalysisScreen extends ConsumerWidget {
+  const AnalysisScreen({Key? key}) : super(key: key);
 
   @override
-  State<AnalysisScreen> createState() => _AnalysisScreenState();
-}
-
-class _AnalysisScreenState extends State<AnalysisScreen> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Analysis'),
       ),
       body: const Center(
-        child: Text('Analysis Screen Content (Coming Soon!)'),
+        child: Text('Analysis Screen'),
       ),
     );
   }

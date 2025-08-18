@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:test_app/models/user_model.dart';
-import 'package:test_app/main.dart';
+import 'package:test_app/providers/providers.dart'; // Import providers
 
 final userProfileProvider = FutureProvider<UserModel?>((ref) async {
   final databaseService = ref.read(databaseServiceProvider);

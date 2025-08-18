@@ -2,15 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:test_app/models/workout_log_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:test_app/main.dart';
+import 'package:test_app/providers/providers.dart'; // Import providers
 import 'package:test_app/screens/client/live_workout_screen.dart';
-
-final workoutLogsProvider = FutureProvider<List<WorkoutLogModel>>((ref) async {
-  final databaseService = ref.read(databaseServiceProvider);
-  final user = FirebaseAuth.instance.currentUser;
-  if (user == null) return [];
-  return databaseService.getWorkoutLogs(user.uid); // Assuming this method exists
-});
 
 class LogbookScreen extends ConsumerStatefulWidget {
   const LogbookScreen({super.key});
@@ -39,7 +32,7 @@ class _LogbookScreenState extends ConsumerState<LogbookScreen> {
               final log = logs[index];
               return ListTile(
                 title: Text('Workout on ${log.date.toLocal().toString().split(' ')[0]}'),
-                subtitle: Text('Template ID: ${log.templateId}'),
+                subtitle: Text('Exercise: ${log.exerciseId}'), // Using exerciseId instead of templateId
                 onTap: () {
                   // TODO: Navigate to workout log details screen
                 },

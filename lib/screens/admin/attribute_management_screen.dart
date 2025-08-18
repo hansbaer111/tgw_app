@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:test_app/auth_wrapper.dart';
+import 'package:test_app/providers/providers.dart'; // Import providers
 
 class AttributeManagementScreen extends ConsumerStatefulWidget {
   const AttributeManagementScreen({Key? key}) : super(key: key);
@@ -57,6 +57,44 @@ class _AttributeManagementScreenState
     );
   }
 
+  void _showEditDialog(String oldValue, int index) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        final _nameController = TextEditingController(text: oldValue);
+        return AlertDialog(
+          title: const Text('Edit Attribute'),
+          content: TextField(
+            controller: _nameController,
+            decoration: const InputDecoration(labelText: 'Name'),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                // Implement save functionality
+                final newName = _nameController.text.trim();
+                if (newName.isNotEmpty) {
+                  // Assuming the current tab is for Muscle Groups for now
+                  // This needs to be dynamic based on the selected tab
+                  await ref.read(databaseServiceProvider).updateMuscleGroup(index, newName);
+                  ref.refresh(adminAttributesProvider); // Refresh UI
+                }
+                Navigator.of(context).pop();
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final attributes = ref.watch(adminAttributesProvider);
@@ -83,13 +121,26 @@ class _AttributeManagementScreenState
                 itemCount: data.equipmentTypes.length,
                 itemBuilder: (context, index) {
                   final item = data.equipmentTypes[index];
-                  return ListTile(
-                    title: Text(item.name),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: () {
-                        // TODO: Implement edit functionality
-                      },
+                  return Dismissible(
+                    key: Key(item.name),
+                    background: Container(
+                      color: Colors.red,
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 20.0),
+                      child: const Icon(Icons.delete, color: Colors.white),
+                    ),
+                    onDismissed: (direction) async {
+                      await ref.read(databaseServiceProvider).deleteMuscleGroup(item.name);
+                      ref.refresh(adminAttributesProvider);
+                    },
+                    child: ListTile(
+                      title: Text(item.name),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () {
+                          _showEditDialog(item.name, index);
+                        },
+                      ),
                     ),
                   );
                 },
@@ -98,13 +149,26 @@ class _AttributeManagementScreenState
                 itemCount: data.movementPatterns.length,
                 itemBuilder: (context, index) {
                   final item = data.movementPatterns[index];
-                  return ListTile(
-                    title: Text(item),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: () {
-                        // TODO: Implement edit functionality
-                      },
+                  return Dismissible(
+                    key: Key(item),
+                    background: Container(
+                      color: Colors.red,
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 20.0),
+                      child: const Icon(Icons.delete, color: Colors.white),
+                    ),
+                    onDismissed: (direction) async {
+                      await ref.read(databaseServiceProvider).deleteMuscleGroup(item); // Assuming deleteMuscleGroup can handle string directly
+                      ref.refresh(adminAttributesProvider);
+                    },
+                    child: ListTile(
+                      title: Text(item),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () {
+                          _showEditDialog(item, index);
+                        },
+                      ),
                     ),
                   );
                 },
@@ -113,13 +177,26 @@ class _AttributeManagementScreenState
                 itemCount: data.muscleGroups.length,
                 itemBuilder: (context, index) {
                   final item = data.muscleGroups[index];
-                  return ListTile(
-                    title: Text(item),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: () {
-                        // TODO: Implement edit functionality
-                      },
+                  return Dismissible(
+                    key: Key(item),
+                    background: Container(
+                      color: Colors.red,
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 20.0),
+                      child: const Icon(Icons.delete, color: Colors.white),
+                    ),
+                    onDismissed: (direction) async {
+                      await ref.read(databaseServiceProvider).deleteMuscleGroup(item);
+                      ref.refresh(adminAttributesProvider);
+                    },
+                    child: ListTile(
+                      title: Text(item),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () {
+                          _showEditDialog(item, index);
+                        },
+                      ),
                     ),
                   );
                 },
@@ -128,13 +205,26 @@ class _AttributeManagementScreenState
                 itemCount: data.exerciseModifiers.length,
                 itemBuilder: (context, index) {
                   final item = data.exerciseModifiers[index];
-                  return ListTile(
-                    title: Text(item.name),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: () {
-                        // TODO: Implement edit functionality
-                      },
+                  return Dismissible(
+                    key: Key(item.name),
+                    background: Container(
+                      color: Colors.red,
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 20.0),
+                      child: const Icon(Icons.delete, color: Colors.white),
+                    ),
+                    onDismissed: (direction) async {
+                      await ref.read(databaseServiceProvider).deleteMuscleGroup(item.name); // Assuming deleteMuscleGroup can handle string directly
+                      ref.refresh(adminAttributesProvider);
+                    },
+                    child: ListTile(
+                      title: Text(item.name),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () {
+                          _showEditDialog(item.name, index);
+                        },
+                      ),
                     ),
                   );
                 },
