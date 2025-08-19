@@ -11,11 +11,10 @@ _$WorkoutLogModelImpl _$$WorkoutLogModelImplFromJson(
     _$WorkoutLogModelImpl(
       id: json['id'] as String,
       userId: json['userId'] as String,
-      dayId: json['dayId'] as String,
-      exerciseId: json['exerciseId'] as String,
+      dayName: json['dayName'] as String,
       date: DateTime.parse(json['date'] as String),
-      sets: (json['sets'] as List<dynamic>)
-          .map((e) => WorkoutSetModel.fromJson(e as Map<String, dynamic>))
+      exercises: (json['exercises'] as List<dynamic>)
+          .map((e) => PerformedExercise.fromJson(e as Map<String, dynamic>))
           .toList(),
       notes: json['notes'] as String?,
       editHistory: (json['editHistory'] as List<dynamic>?)
@@ -28,12 +27,27 @@ Map<String, dynamic> _$$WorkoutLogModelImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'userId': instance.userId,
-      'dayId': instance.dayId,
-      'exerciseId': instance.exerciseId,
+      'dayName': instance.dayName,
       'date': instance.date.toIso8601String(),
-      'sets': instance.sets,
+      'exercises': instance.exercises,
       'notes': instance.notes,
       'editHistory': instance.editHistory,
+    };
+
+_$PerformedExerciseImpl _$$PerformedExerciseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PerformedExerciseImpl(
+      exerciseId: json['exerciseId'] as String,
+      sets: (json['sets'] as List<dynamic>)
+          .map((e) => WorkoutSetModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$PerformedExerciseImplToJson(
+        _$PerformedExerciseImpl instance) =>
+    <String, dynamic>{
+      'exerciseId': instance.exerciseId,
+      'sets': instance.sets,
     };
 
 _$EditHistoryEntryImpl _$$EditHistoryEntryImplFromJson(

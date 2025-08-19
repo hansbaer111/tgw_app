@@ -1,33 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:test_app/models/exercise_model.dart';
-import 'package:test_app/main.dart';
+import 'package:test_app/providers/providers.dart'; // Central providers file
+import 'package:test_app/screens/admin/add_edit_exercise_screen.dart';
 
-final exercisesProvider = FutureProvider<List<ExerciseModel>>((ref) async {
-  final databaseService = ref.read(databaseServiceProvider);
-  return databaseService.getExercises(); // Assuming this method exists
-});
-
-class ExerciseLibraryScreen extends ConsumerStatefulWidget {
+class ExerciseLibraryScreen extends ConsumerWidget {
   const ExerciseLibraryScreen({super.key});
 
   @override
-  ConsumerState<ExerciseLibraryScreen> createState() => _ExerciseLibraryScreenState();
-}
-
-class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
-  @override
-  Widget build(BuildContext context) {
-    final exercisesAsyncValue = ref.watch(exercisesProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final exercisesAsync = ref.watch(exercisesProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Exercise Library'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () => ref.refresh(exercisesProvider),
+          ),
+        ],
       ),
-      body: exercisesAsyncValue.when(
+      body: exercisesAsync.when(
         data: (exercises) {
           if (exercises.isEmpty) {
-            return const Center(child: Text('No exercises found.'));
+            return const Center(child: Text('No exercises found. Add one!'));
           }
           return ListView.builder(
             itemCount: exercises.length,
@@ -35,21 +31,31 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
               final exercise = exercises[index];
               return ListTile(
                 title: Text(exercise.name),
-                subtitle: Text(exercise.description ?? 'No description'),
-                trailing: Text(exercise.tags.join(', ')),
+                subtitle: Text(exercise.tags.primaryMuscle.join(', ')),
                 onTap: () {
-                  // TODO: Navigate to exercise details screen
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => AddEditExerciseScreen(exercise: exercise),
+                  )).then((_) => ref.refresh(exercisesProvider));
                 },
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete, color: Colors.red),
+                  onPressed: () async {
+                    await ref.read(databaseServiceProvider).deleteExercise(exercise.id);
+                    ref.refresh(exercisesProvider);
+                  },
+                ),
               );
             },
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(child: Text('Error: $error')),
+        error: (err, stack) => Center(child: Text('Error: $err')),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO: Implement add new exercise functionality
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const AddEditExerciseScreen(),
+          )).then((_) => ref.refresh(exercisesProvider));
         },
         child: const Icon(Icons.add),
       ),

@@ -22,9 +22,14 @@ ClientPlanModel _$ClientPlanModelFromJson(Map<String, dynamic> json) {
 mixin _$ClientPlanModel {
   String get id => throw _privateConstructorUsedError;
   String get clientId => throw _privateConstructorUsedError;
-  String get templateId => throw _privateConstructorUsedError;
+  String get trainerId => throw _privateConstructorUsedError; // Added trainerId
+  String get name => throw _privateConstructorUsedError; // Added name
+  String get description =>
+      throw _privateConstructorUsedError; // Added description
   DateTime get startDate => throw _privateConstructorUsedError;
   DateTime get endDate => throw _privateConstructorUsedError;
+  List<DayModel> get days => throw _privateConstructorUsedError; // Added days
+  bool get isActive => throw _privateConstructorUsedError;
 
   /// Serializes this ClientPlanModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,9 +50,13 @@ abstract class $ClientPlanModelCopyWith<$Res> {
   $Res call(
       {String id,
       String clientId,
-      String templateId,
+      String trainerId,
+      String name,
+      String description,
       DateTime startDate,
-      DateTime endDate});
+      DateTime endDate,
+      List<DayModel> days,
+      bool isActive});
 }
 
 /// @nodoc
@@ -67,9 +76,13 @@ class _$ClientPlanModelCopyWithImpl<$Res, $Val extends ClientPlanModel>
   $Res call({
     Object? id = null,
     Object? clientId = null,
-    Object? templateId = null,
+    Object? trainerId = null,
+    Object? name = null,
+    Object? description = null,
     Object? startDate = null,
     Object? endDate = null,
+    Object? days = null,
+    Object? isActive = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -80,9 +93,17 @@ class _$ClientPlanModelCopyWithImpl<$Res, $Val extends ClientPlanModel>
           ? _value.clientId
           : clientId // ignore: cast_nullable_to_non_nullable
               as String,
-      templateId: null == templateId
-          ? _value.templateId
-          : templateId // ignore: cast_nullable_to_non_nullable
+      trainerId: null == trainerId
+          ? _value.trainerId
+          : trainerId // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String,
       startDate: null == startDate
           ? _value.startDate
@@ -92,6 +113,14 @@ class _$ClientPlanModelCopyWithImpl<$Res, $Val extends ClientPlanModel>
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      days: null == days
+          ? _value.days
+          : days // ignore: cast_nullable_to_non_nullable
+              as List<DayModel>,
+      isActive: null == isActive
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -107,9 +136,13 @@ abstract class _$$ClientPlanModelImplCopyWith<$Res>
   $Res call(
       {String id,
       String clientId,
-      String templateId,
+      String trainerId,
+      String name,
+      String description,
       DateTime startDate,
-      DateTime endDate});
+      DateTime endDate,
+      List<DayModel> days,
+      bool isActive});
 }
 
 /// @nodoc
@@ -127,9 +160,13 @@ class __$$ClientPlanModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? clientId = null,
-    Object? templateId = null,
+    Object? trainerId = null,
+    Object? name = null,
+    Object? description = null,
     Object? startDate = null,
     Object? endDate = null,
+    Object? days = null,
+    Object? isActive = null,
   }) {
     return _then(_$ClientPlanModelImpl(
       id: null == id
@@ -140,9 +177,17 @@ class __$$ClientPlanModelImplCopyWithImpl<$Res>
           ? _value.clientId
           : clientId // ignore: cast_nullable_to_non_nullable
               as String,
-      templateId: null == templateId
-          ? _value.templateId
-          : templateId // ignore: cast_nullable_to_non_nullable
+      trainerId: null == trainerId
+          ? _value.trainerId
+          : trainerId // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String,
       startDate: null == startDate
           ? _value.startDate
@@ -152,6 +197,14 @@ class __$$ClientPlanModelImplCopyWithImpl<$Res>
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      days: null == days
+          ? _value._days
+          : days // ignore: cast_nullable_to_non_nullable
+              as List<DayModel>,
+      isActive: null == isActive
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -162,9 +215,14 @@ class _$ClientPlanModelImpl implements _ClientPlanModel {
   const _$ClientPlanModelImpl(
       {required this.id,
       required this.clientId,
-      required this.templateId,
+      required this.trainerId,
+      required this.name,
+      required this.description,
       required this.startDate,
-      required this.endDate});
+      required this.endDate,
+      required final List<DayModel> days,
+      required this.isActive})
+      : _days = days;
 
   factory _$ClientPlanModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ClientPlanModelImplFromJson(json);
@@ -174,15 +232,33 @@ class _$ClientPlanModelImpl implements _ClientPlanModel {
   @override
   final String clientId;
   @override
-  final String templateId;
+  final String trainerId;
+// Added trainerId
+  @override
+  final String name;
+// Added name
+  @override
+  final String description;
+// Added description
   @override
   final DateTime startDate;
   @override
   final DateTime endDate;
+  final List<DayModel> _days;
+  @override
+  List<DayModel> get days {
+    if (_days is EqualUnmodifiableListView) return _days;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_days);
+  }
+
+// Added days
+  @override
+  final bool isActive;
 
   @override
   String toString() {
-    return 'ClientPlanModel(id: $id, clientId: $clientId, templateId: $templateId, startDate: $startDate, endDate: $endDate)';
+    return 'ClientPlanModel(id: $id, clientId: $clientId, trainerId: $trainerId, name: $name, description: $description, startDate: $startDate, endDate: $endDate, days: $days, isActive: $isActive)';
   }
 
   @override
@@ -193,17 +269,32 @@ class _$ClientPlanModelImpl implements _ClientPlanModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.clientId, clientId) ||
                 other.clientId == clientId) &&
-            (identical(other.templateId, templateId) ||
-                other.templateId == templateId) &&
+            (identical(other.trainerId, trainerId) ||
+                other.trainerId == trainerId) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.startDate, startDate) ||
                 other.startDate == startDate) &&
-            (identical(other.endDate, endDate) || other.endDate == endDate));
+            (identical(other.endDate, endDate) || other.endDate == endDate) &&
+            const DeepCollectionEquality().equals(other._days, _days) &&
+            (identical(other.isActive, isActive) ||
+                other.isActive == isActive));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, clientId, templateId, startDate, endDate);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      clientId,
+      trainerId,
+      name,
+      description,
+      startDate,
+      endDate,
+      const DeepCollectionEquality().hash(_days),
+      isActive);
 
   /// Create a copy of ClientPlanModel
   /// with the given fields replaced by the non-null parameter values.
@@ -226,9 +317,13 @@ abstract class _ClientPlanModel implements ClientPlanModel {
   const factory _ClientPlanModel(
       {required final String id,
       required final String clientId,
-      required final String templateId,
+      required final String trainerId,
+      required final String name,
+      required final String description,
       required final DateTime startDate,
-      required final DateTime endDate}) = _$ClientPlanModelImpl;
+      required final DateTime endDate,
+      required final List<DayModel> days,
+      required final bool isActive}) = _$ClientPlanModelImpl;
 
   factory _ClientPlanModel.fromJson(Map<String, dynamic> json) =
       _$ClientPlanModelImpl.fromJson;
@@ -238,11 +333,19 @@ abstract class _ClientPlanModel implements ClientPlanModel {
   @override
   String get clientId;
   @override
-  String get templateId;
+  String get trainerId; // Added trainerId
+  @override
+  String get name; // Added name
+  @override
+  String get description; // Added description
   @override
   DateTime get startDate;
   @override
   DateTime get endDate;
+  @override
+  List<DayModel> get days; // Added days
+  @override
+  bool get isActive;
 
   /// Create a copy of ClientPlanModel
   /// with the given fields replaced by the non-null parameter values.

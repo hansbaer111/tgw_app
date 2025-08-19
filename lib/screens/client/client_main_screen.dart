@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:test_app/screens/client/trainingsplaene_tab.dart'; // Import TrainingsplaeneTab
-import 'package:test_app/screens/client/logbuch_tab.dart'; // Import LogbuchTab
-import 'package:test_app/screens/client/profile_tab.dart'; // Import ProfileTab
+import 'package:test_app/screens/client/client_chat_list_screen.dart';
+import 'package:test_app/screens/client/logbook_screen.dart';
+import 'package:test_app/screens/client/profile_screen.dart';
+import 'package:test_app/screens/client/training_plans_screen.dart';
 
 class ClientMainScreen extends StatefulWidget {
-  const ClientMainScreen({Key? key}) : super(key: key);
+  const ClientMainScreen({super.key});
 
   @override
-  _ClientMainScreenState createState() => _ClientMainScreenState();
+  State<ClientMainScreen> createState() => _ClientMainScreenState();
 }
 
 class _ClientMainScreenState extends State<ClientMainScreen> {
   int _selectedIndex = 0;
 
+  // TODO: Replace with actual screen widgets
   static const List<Widget> _widgetOptions = <Widget>[
-    TrainingsplaeneTab(), // Use the new tab widget
-    LogbuchTab(), // Use the new tab widget
-    ProfileTab(), // Use the new tab widget
+    TrainingPlansScreen(),
+    LogbookScreen(),
+    ClientChatListScreen(),
+    ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -29,11 +32,9 @@ class _ClientMainScreenState extends State<ClientMainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Client Main Screen'),
+        title: const Text('Moritz Coach'),
       ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
+      body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -41,12 +42,16 @@ class _ClientMainScreenState extends State<ClientMainScreen> {
             label: 'Trainingspläne',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.book),
+            icon: Icon(Icons.history),
             label: 'Logbuch',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profil',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
+            label: 'Chat',
           ),
         ],
         currentIndex: _selectedIndex,

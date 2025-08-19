@@ -445,7 +445,9 @@ ExerciseModifier _$ExerciseModifierFromJson(Map<String, dynamic> json) {
 mixin _$ExerciseModifier {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  List<ModifierParameter> get parameters => throw _privateConstructorUsedError;
+  ModifierParameter get parameter =>
+      throw _privateConstructorUsedError; // Changed to single parameter
+  ValueType get valueType => throw _privateConstructorUsedError;
 
   /// Serializes this ExerciseModifier to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -463,7 +465,11 @@ abstract class $ExerciseModifierCopyWith<$Res> {
           ExerciseModifier value, $Res Function(ExerciseModifier) then) =
       _$ExerciseModifierCopyWithImpl<$Res, ExerciseModifier>;
   @useResult
-  $Res call({String id, String name, List<ModifierParameter> parameters});
+  $Res call(
+      {String id,
+      String name,
+      ModifierParameter parameter,
+      ValueType valueType});
 }
 
 /// @nodoc
@@ -483,7 +489,8 @@ class _$ExerciseModifierCopyWithImpl<$Res, $Val extends ExerciseModifier>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? parameters = null,
+    Object? parameter = null,
+    Object? valueType = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -494,10 +501,14 @@ class _$ExerciseModifierCopyWithImpl<$Res, $Val extends ExerciseModifier>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      parameters: null == parameters
-          ? _value.parameters
-          : parameters // ignore: cast_nullable_to_non_nullable
-              as List<ModifierParameter>,
+      parameter: null == parameter
+          ? _value.parameter
+          : parameter // ignore: cast_nullable_to_non_nullable
+              as ModifierParameter,
+      valueType: null == valueType
+          ? _value.valueType
+          : valueType // ignore: cast_nullable_to_non_nullable
+              as ValueType,
     ) as $Val);
   }
 }
@@ -510,7 +521,11 @@ abstract class _$$ExerciseModifierImplCopyWith<$Res>
       __$$ExerciseModifierImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, List<ModifierParameter> parameters});
+  $Res call(
+      {String id,
+      String name,
+      ModifierParameter parameter,
+      ValueType valueType});
 }
 
 /// @nodoc
@@ -528,7 +543,8 @@ class __$$ExerciseModifierImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? parameters = null,
+    Object? parameter = null,
+    Object? valueType = null,
   }) {
     return _then(_$ExerciseModifierImpl(
       id: null == id
@@ -539,10 +555,14 @@ class __$$ExerciseModifierImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      parameters: null == parameters
-          ? _value._parameters
-          : parameters // ignore: cast_nullable_to_non_nullable
-              as List<ModifierParameter>,
+      parameter: null == parameter
+          ? _value.parameter
+          : parameter // ignore: cast_nullable_to_non_nullable
+              as ModifierParameter,
+      valueType: null == valueType
+          ? _value.valueType
+          : valueType // ignore: cast_nullable_to_non_nullable
+              as ValueType,
     ));
   }
 }
@@ -553,8 +573,8 @@ class _$ExerciseModifierImpl implements _ExerciseModifier {
   const _$ExerciseModifierImpl(
       {required this.id,
       required this.name,
-      required final List<ModifierParameter> parameters})
-      : _parameters = parameters;
+      required this.parameter,
+      required this.valueType});
 
   factory _$ExerciseModifierImpl.fromJson(Map<String, dynamic> json) =>
       _$$ExerciseModifierImplFromJson(json);
@@ -563,17 +583,15 @@ class _$ExerciseModifierImpl implements _ExerciseModifier {
   final String id;
   @override
   final String name;
-  final List<ModifierParameter> _parameters;
   @override
-  List<ModifierParameter> get parameters {
-    if (_parameters is EqualUnmodifiableListView) return _parameters;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_parameters);
-  }
+  final ModifierParameter parameter;
+// Changed to single parameter
+  @override
+  final ValueType valueType;
 
   @override
   String toString() {
-    return 'ExerciseModifier(id: $id, name: $name, parameters: $parameters)';
+    return 'ExerciseModifier(id: $id, name: $name, parameter: $parameter, valueType: $valueType)';
   }
 
   @override
@@ -583,14 +601,15 @@ class _$ExerciseModifierImpl implements _ExerciseModifier {
             other is _$ExerciseModifierImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            const DeepCollectionEquality()
-                .equals(other._parameters, _parameters));
+            (identical(other.parameter, parameter) ||
+                other.parameter == parameter) &&
+            (identical(other.valueType, valueType) ||
+                other.valueType == valueType));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, name, const DeepCollectionEquality().hash(_parameters));
+  int get hashCode => Object.hash(runtimeType, id, name, parameter, valueType);
 
   /// Create a copy of ExerciseModifier
   /// with the given fields replaced by the non-null parameter values.
@@ -611,10 +630,10 @@ class _$ExerciseModifierImpl implements _ExerciseModifier {
 
 abstract class _ExerciseModifier implements ExerciseModifier {
   const factory _ExerciseModifier(
-          {required final String id,
-          required final String name,
-          required final List<ModifierParameter> parameters}) =
-      _$ExerciseModifierImpl;
+      {required final String id,
+      required final String name,
+      required final ModifierParameter parameter,
+      required final ValueType valueType}) = _$ExerciseModifierImpl;
 
   factory _ExerciseModifier.fromJson(Map<String, dynamic> json) =
       _$ExerciseModifierImpl.fromJson;
@@ -624,202 +643,14 @@ abstract class _ExerciseModifier implements ExerciseModifier {
   @override
   String get name;
   @override
-  List<ModifierParameter> get parameters;
+  ModifierParameter get parameter; // Changed to single parameter
+  @override
+  ValueType get valueType;
 
   /// Create a copy of ExerciseModifier
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ExerciseModifierImplCopyWith<_$ExerciseModifierImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-ModifierParameter _$ModifierParameterFromJson(Map<String, dynamic> json) {
-  return _ModifierParameter.fromJson(json);
-}
-
-/// @nodoc
-mixin _$ModifierParameter {
-  String get name => throw _privateConstructorUsedError;
-  String get type =>
-      throw _privateConstructorUsedError; // e.g., 'number', 'text', 'boolean'
-  dynamic get defaultValue => throw _privateConstructorUsedError;
-
-  /// Serializes this ModifierParameter to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of ModifierParameter
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ModifierParameterCopyWith<ModifierParameter> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ModifierParameterCopyWith<$Res> {
-  factory $ModifierParameterCopyWith(
-          ModifierParameter value, $Res Function(ModifierParameter) then) =
-      _$ModifierParameterCopyWithImpl<$Res, ModifierParameter>;
-  @useResult
-  $Res call({String name, String type, dynamic defaultValue});
-}
-
-/// @nodoc
-class _$ModifierParameterCopyWithImpl<$Res, $Val extends ModifierParameter>
-    implements $ModifierParameterCopyWith<$Res> {
-  _$ModifierParameterCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of ModifierParameter
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? name = null,
-    Object? type = null,
-    Object? defaultValue = freezed,
-  }) {
-    return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      defaultValue: freezed == defaultValue
-          ? _value.defaultValue
-          : defaultValue // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$ModifierParameterImplCopyWith<$Res>
-    implements $ModifierParameterCopyWith<$Res> {
-  factory _$$ModifierParameterImplCopyWith(_$ModifierParameterImpl value,
-          $Res Function(_$ModifierParameterImpl) then) =
-      __$$ModifierParameterImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String name, String type, dynamic defaultValue});
-}
-
-/// @nodoc
-class __$$ModifierParameterImplCopyWithImpl<$Res>
-    extends _$ModifierParameterCopyWithImpl<$Res, _$ModifierParameterImpl>
-    implements _$$ModifierParameterImplCopyWith<$Res> {
-  __$$ModifierParameterImplCopyWithImpl(_$ModifierParameterImpl _value,
-      $Res Function(_$ModifierParameterImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ModifierParameter
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? name = null,
-    Object? type = null,
-    Object? defaultValue = freezed,
-  }) {
-    return _then(_$ModifierParameterImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      defaultValue: freezed == defaultValue
-          ? _value.defaultValue
-          : defaultValue // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$ModifierParameterImpl implements _ModifierParameter {
-  const _$ModifierParameterImpl(
-      {required this.name, required this.type, this.defaultValue});
-
-  factory _$ModifierParameterImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ModifierParameterImplFromJson(json);
-
-  @override
-  final String name;
-  @override
-  final String type;
-// e.g., 'number', 'text', 'boolean'
-  @override
-  final dynamic defaultValue;
-
-  @override
-  String toString() {
-    return 'ModifierParameter(name: $name, type: $type, defaultValue: $defaultValue)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ModifierParameterImpl &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.type, type) || other.type == type) &&
-            const DeepCollectionEquality()
-                .equals(other.defaultValue, defaultValue));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, name, type,
-      const DeepCollectionEquality().hash(defaultValue));
-
-  /// Create a copy of ModifierParameter
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ModifierParameterImplCopyWith<_$ModifierParameterImpl> get copyWith =>
-      __$$ModifierParameterImplCopyWithImpl<_$ModifierParameterImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ModifierParameterImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _ModifierParameter implements ModifierParameter {
-  const factory _ModifierParameter(
-      {required final String name,
-      required final String type,
-      final dynamic defaultValue}) = _$ModifierParameterImpl;
-
-  factory _ModifierParameter.fromJson(Map<String, dynamic> json) =
-      _$ModifierParameterImpl.fromJson;
-
-  @override
-  String get name;
-  @override
-  String get type; // e.g., 'number', 'text', 'boolean'
-  @override
-  dynamic get defaultValue;
-
-  /// Create a copy of ModifierParameter
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ModifierParameterImplCopyWith<_$ModifierParameterImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -11,14 +11,10 @@ _$ExerciseModelImpl _$$ExerciseModelImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       name: json['name'] as String,
       description: json['description'] as String,
-      muscleGroups: (json['muscleGroups'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      equipment:
-          (json['equipment'] as List<dynamic>).map((e) => e as String).toList(),
-      movementPattern: json['movementPattern'] as String,
-      tags: (json['tags'] as List<dynamic>)
-          .map((e) => ExerciseTags.fromJson(e as Map<String, dynamic>))
+      ownerId: json['ownerId'] as String,
+      tags: ExerciseTags.fromJson(json['tags'] as Map<String, dynamic>),
+      modifiers: (json['modifiers'] as List<dynamic>)
+          .map((e) => ExerciseModifier.fromJson(e as Map<String, dynamic>))
           .toList(),
       videoUrl: json['videoUrl'] as String?,
     );
@@ -28,21 +24,36 @@ Map<String, dynamic> _$$ExerciseModelImplToJson(_$ExerciseModelImpl instance) =>
       'id': instance.id,
       'name': instance.name,
       'description': instance.description,
-      'muscleGroups': instance.muscleGroups,
-      'equipment': instance.equipment,
-      'movementPattern': instance.movementPattern,
+      'ownerId': instance.ownerId,
       'tags': instance.tags,
+      'modifiers': instance.modifiers,
       'videoUrl': instance.videoUrl,
     };
 
 _$ExerciseTagsImpl _$$ExerciseTagsImplFromJson(Map<String, dynamic> json) =>
     _$ExerciseTagsImpl(
-      name: json['name'] as String,
-      value: json['value'] as String,
+      equipment: (json['equipment'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      primaryMuscle: (json['primaryMuscle'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      secondaryMuscles: (json['secondaryMuscles'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      movementPattern: (json['movementPattern'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$ExerciseTagsImplToJson(_$ExerciseTagsImpl instance) =>
     <String, dynamic>{
-      'name': instance.name,
-      'value': instance.value,
+      'equipment': instance.equipment,
+      'primaryMuscle': instance.primaryMuscle,
+      'secondaryMuscles': instance.secondaryMuscles,
+      'movementPattern': instance.movementPattern,
     };

@@ -21,9 +21,11 @@ WorkoutSetModel _$WorkoutSetModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$WorkoutSetModel {
   int get setNumber => throw _privateConstructorUsedError;
-  String get reps => throw _privateConstructorUsedError;
-  String get rpe => throw _privateConstructorUsedError;
+  int get reps => throw _privateConstructorUsedError; // Changed to int
+  double get weight => throw _privateConstructorUsedError; // Added weight
+  String? get rpe => throw _privateConstructorUsedError; // Made optional
   String? get notes => throw _privateConstructorUsedError;
+  bool get isCompleted => throw _privateConstructorUsedError;
 
   /// Serializes this WorkoutSetModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -41,7 +43,13 @@ abstract class $WorkoutSetModelCopyWith<$Res> {
           WorkoutSetModel value, $Res Function(WorkoutSetModel) then) =
       _$WorkoutSetModelCopyWithImpl<$Res, WorkoutSetModel>;
   @useResult
-  $Res call({int setNumber, String reps, String rpe, String? notes});
+  $Res call(
+      {int setNumber,
+      int reps,
+      double weight,
+      String? rpe,
+      String? notes,
+      bool isCompleted});
 }
 
 /// @nodoc
@@ -61,8 +69,10 @@ class _$WorkoutSetModelCopyWithImpl<$Res, $Val extends WorkoutSetModel>
   $Res call({
     Object? setNumber = null,
     Object? reps = null,
-    Object? rpe = null,
+    Object? weight = null,
+    Object? rpe = freezed,
     Object? notes = freezed,
+    Object? isCompleted = null,
   }) {
     return _then(_value.copyWith(
       setNumber: null == setNumber
@@ -72,15 +82,23 @@ class _$WorkoutSetModelCopyWithImpl<$Res, $Val extends WorkoutSetModel>
       reps: null == reps
           ? _value.reps
           : reps // ignore: cast_nullable_to_non_nullable
-              as String,
-      rpe: null == rpe
+              as int,
+      weight: null == weight
+          ? _value.weight
+          : weight // ignore: cast_nullable_to_non_nullable
+              as double,
+      rpe: freezed == rpe
           ? _value.rpe
           : rpe // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       notes: freezed == notes
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
               as String?,
+      isCompleted: null == isCompleted
+          ? _value.isCompleted
+          : isCompleted // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -93,7 +111,13 @@ abstract class _$$WorkoutSetModelImplCopyWith<$Res>
       __$$WorkoutSetModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int setNumber, String reps, String rpe, String? notes});
+  $Res call(
+      {int setNumber,
+      int reps,
+      double weight,
+      String? rpe,
+      String? notes,
+      bool isCompleted});
 }
 
 /// @nodoc
@@ -111,8 +135,10 @@ class __$$WorkoutSetModelImplCopyWithImpl<$Res>
   $Res call({
     Object? setNumber = null,
     Object? reps = null,
-    Object? rpe = null,
+    Object? weight = null,
+    Object? rpe = freezed,
     Object? notes = freezed,
+    Object? isCompleted = null,
   }) {
     return _then(_$WorkoutSetModelImpl(
       setNumber: null == setNumber
@@ -122,15 +148,23 @@ class __$$WorkoutSetModelImplCopyWithImpl<$Res>
       reps: null == reps
           ? _value.reps
           : reps // ignore: cast_nullable_to_non_nullable
-              as String,
-      rpe: null == rpe
+              as int,
+      weight: null == weight
+          ? _value.weight
+          : weight // ignore: cast_nullable_to_non_nullable
+              as double,
+      rpe: freezed == rpe
           ? _value.rpe
           : rpe // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       notes: freezed == notes
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
               as String?,
+      isCompleted: null == isCompleted
+          ? _value.isCompleted
+          : isCompleted // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -141,8 +175,10 @@ class _$WorkoutSetModelImpl implements _WorkoutSetModel {
   const _$WorkoutSetModelImpl(
       {required this.setNumber,
       required this.reps,
-      required this.rpe,
-      this.notes});
+      required this.weight,
+      this.rpe,
+      this.notes,
+      this.isCompleted = false});
 
   factory _$WorkoutSetModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$WorkoutSetModelImplFromJson(json);
@@ -150,15 +186,23 @@ class _$WorkoutSetModelImpl implements _WorkoutSetModel {
   @override
   final int setNumber;
   @override
-  final String reps;
+  final int reps;
+// Changed to int
   @override
-  final String rpe;
+  final double weight;
+// Added weight
+  @override
+  final String? rpe;
+// Made optional
   @override
   final String? notes;
+  @override
+  @JsonKey()
+  final bool isCompleted;
 
   @override
   String toString() {
-    return 'WorkoutSetModel(setNumber: $setNumber, reps: $reps, rpe: $rpe, notes: $notes)';
+    return 'WorkoutSetModel(setNumber: $setNumber, reps: $reps, weight: $weight, rpe: $rpe, notes: $notes, isCompleted: $isCompleted)';
   }
 
   @override
@@ -169,13 +213,17 @@ class _$WorkoutSetModelImpl implements _WorkoutSetModel {
             (identical(other.setNumber, setNumber) ||
                 other.setNumber == setNumber) &&
             (identical(other.reps, reps) || other.reps == reps) &&
+            (identical(other.weight, weight) || other.weight == weight) &&
             (identical(other.rpe, rpe) || other.rpe == rpe) &&
-            (identical(other.notes, notes) || other.notes == notes));
+            (identical(other.notes, notes) || other.notes == notes) &&
+            (identical(other.isCompleted, isCompleted) ||
+                other.isCompleted == isCompleted));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, setNumber, reps, rpe, notes);
+  int get hashCode => Object.hash(
+      runtimeType, setNumber, reps, weight, rpe, notes, isCompleted);
 
   /// Create a copy of WorkoutSetModel
   /// with the given fields replaced by the non-null parameter values.
@@ -197,9 +245,11 @@ class _$WorkoutSetModelImpl implements _WorkoutSetModel {
 abstract class _WorkoutSetModel implements WorkoutSetModel {
   const factory _WorkoutSetModel(
       {required final int setNumber,
-      required final String reps,
-      required final String rpe,
-      final String? notes}) = _$WorkoutSetModelImpl;
+      required final int reps,
+      required final double weight,
+      final String? rpe,
+      final String? notes,
+      final bool isCompleted}) = _$WorkoutSetModelImpl;
 
   factory _WorkoutSetModel.fromJson(Map<String, dynamic> json) =
       _$WorkoutSetModelImpl.fromJson;
@@ -207,11 +257,15 @@ abstract class _WorkoutSetModel implements WorkoutSetModel {
   @override
   int get setNumber;
   @override
-  String get reps;
+  int get reps; // Changed to int
   @override
-  String get rpe;
+  double get weight; // Added weight
+  @override
+  String? get rpe; // Made optional
   @override
   String? get notes;
+  @override
+  bool get isCompleted;
 
   /// Create a copy of WorkoutSetModel
   /// with the given fields replaced by the non-null parameter values.

@@ -22,10 +22,11 @@ WorkoutLogModel _$WorkoutLogModelFromJson(Map<String, dynamic> json) {
 mixin _$WorkoutLogModel {
   String get id => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
-  String get dayId => throw _privateConstructorUsedError;
-  String get exerciseId => throw _privateConstructorUsedError;
+  String get dayName =>
+      throw _privateConstructorUsedError; // Changed from dayId
   DateTime get date => throw _privateConstructorUsedError;
-  List<WorkoutSetModel> get sets => throw _privateConstructorUsedError;
+  List<PerformedExercise> get exercises =>
+      throw _privateConstructorUsedError; // Changed from exerciseId and sets
   String? get notes => throw _privateConstructorUsedError;
   List<EditHistoryEntry>? get editHistory => throw _privateConstructorUsedError;
 
@@ -48,10 +49,9 @@ abstract class $WorkoutLogModelCopyWith<$Res> {
   $Res call(
       {String id,
       String userId,
-      String dayId,
-      String exerciseId,
+      String dayName,
       DateTime date,
-      List<WorkoutSetModel> sets,
+      List<PerformedExercise> exercises,
       String? notes,
       List<EditHistoryEntry>? editHistory});
 }
@@ -73,10 +73,9 @@ class _$WorkoutLogModelCopyWithImpl<$Res, $Val extends WorkoutLogModel>
   $Res call({
     Object? id = null,
     Object? userId = null,
-    Object? dayId = null,
-    Object? exerciseId = null,
+    Object? dayName = null,
     Object? date = null,
-    Object? sets = null,
+    Object? exercises = null,
     Object? notes = freezed,
     Object? editHistory = freezed,
   }) {
@@ -89,22 +88,18 @@ class _$WorkoutLogModelCopyWithImpl<$Res, $Val extends WorkoutLogModel>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      dayId: null == dayId
-          ? _value.dayId
-          : dayId // ignore: cast_nullable_to_non_nullable
-              as String,
-      exerciseId: null == exerciseId
-          ? _value.exerciseId
-          : exerciseId // ignore: cast_nullable_to_non_nullable
+      dayName: null == dayName
+          ? _value.dayName
+          : dayName // ignore: cast_nullable_to_non_nullable
               as String,
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      sets: null == sets
-          ? _value.sets
-          : sets // ignore: cast_nullable_to_non_nullable
-              as List<WorkoutSetModel>,
+      exercises: null == exercises
+          ? _value.exercises
+          : exercises // ignore: cast_nullable_to_non_nullable
+              as List<PerformedExercise>,
       notes: freezed == notes
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
@@ -128,10 +123,9 @@ abstract class _$$WorkoutLogModelImplCopyWith<$Res>
   $Res call(
       {String id,
       String userId,
-      String dayId,
-      String exerciseId,
+      String dayName,
       DateTime date,
-      List<WorkoutSetModel> sets,
+      List<PerformedExercise> exercises,
       String? notes,
       List<EditHistoryEntry>? editHistory});
 }
@@ -151,10 +145,9 @@ class __$$WorkoutLogModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? userId = null,
-    Object? dayId = null,
-    Object? exerciseId = null,
+    Object? dayName = null,
     Object? date = null,
-    Object? sets = null,
+    Object? exercises = null,
     Object? notes = freezed,
     Object? editHistory = freezed,
   }) {
@@ -167,22 +160,18 @@ class __$$WorkoutLogModelImplCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      dayId: null == dayId
-          ? _value.dayId
-          : dayId // ignore: cast_nullable_to_non_nullable
-              as String,
-      exerciseId: null == exerciseId
-          ? _value.exerciseId
-          : exerciseId // ignore: cast_nullable_to_non_nullable
+      dayName: null == dayName
+          ? _value.dayName
+          : dayName // ignore: cast_nullable_to_non_nullable
               as String,
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      sets: null == sets
-          ? _value._sets
-          : sets // ignore: cast_nullable_to_non_nullable
-              as List<WorkoutSetModel>,
+      exercises: null == exercises
+          ? _value._exercises
+          : exercises // ignore: cast_nullable_to_non_nullable
+              as List<PerformedExercise>,
       notes: freezed == notes
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
@@ -201,13 +190,12 @@ class _$WorkoutLogModelImpl implements _WorkoutLogModel {
   const _$WorkoutLogModelImpl(
       {required this.id,
       required this.userId,
-      required this.dayId,
-      required this.exerciseId,
+      required this.dayName,
       required this.date,
-      required final List<WorkoutSetModel> sets,
+      required final List<PerformedExercise> exercises,
       this.notes,
       final List<EditHistoryEntry>? editHistory})
-      : _sets = sets,
+      : _exercises = exercises,
         _editHistory = editHistory;
 
   factory _$WorkoutLogModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -218,19 +206,19 @@ class _$WorkoutLogModelImpl implements _WorkoutLogModel {
   @override
   final String userId;
   @override
-  final String dayId;
-  @override
-  final String exerciseId;
+  final String dayName;
+// Changed from dayId
   @override
   final DateTime date;
-  final List<WorkoutSetModel> _sets;
+  final List<PerformedExercise> _exercises;
   @override
-  List<WorkoutSetModel> get sets {
-    if (_sets is EqualUnmodifiableListView) return _sets;
+  List<PerformedExercise> get exercises {
+    if (_exercises is EqualUnmodifiableListView) return _exercises;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_sets);
+    return EqualUnmodifiableListView(_exercises);
   }
 
+// Changed from exerciseId and sets
   @override
   final String? notes;
   final List<EditHistoryEntry>? _editHistory;
@@ -245,7 +233,7 @@ class _$WorkoutLogModelImpl implements _WorkoutLogModel {
 
   @override
   String toString() {
-    return 'WorkoutLogModel(id: $id, userId: $userId, dayId: $dayId, exerciseId: $exerciseId, date: $date, sets: $sets, notes: $notes, editHistory: $editHistory)';
+    return 'WorkoutLogModel(id: $id, userId: $userId, dayName: $dayName, date: $date, exercises: $exercises, notes: $notes, editHistory: $editHistory)';
   }
 
   @override
@@ -255,11 +243,10 @@ class _$WorkoutLogModelImpl implements _WorkoutLogModel {
             other is _$WorkoutLogModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.dayId, dayId) || other.dayId == dayId) &&
-            (identical(other.exerciseId, exerciseId) ||
-                other.exerciseId == exerciseId) &&
+            (identical(other.dayName, dayName) || other.dayName == dayName) &&
             (identical(other.date, date) || other.date == date) &&
-            const DeepCollectionEquality().equals(other._sets, _sets) &&
+            const DeepCollectionEquality()
+                .equals(other._exercises, _exercises) &&
             (identical(other.notes, notes) || other.notes == notes) &&
             const DeepCollectionEquality()
                 .equals(other._editHistory, _editHistory));
@@ -271,10 +258,9 @@ class _$WorkoutLogModelImpl implements _WorkoutLogModel {
       runtimeType,
       id,
       userId,
-      dayId,
-      exerciseId,
+      dayName,
       date,
-      const DeepCollectionEquality().hash(_sets),
+      const DeepCollectionEquality().hash(_exercises),
       notes,
       const DeepCollectionEquality().hash(_editHistory));
 
@@ -299,10 +285,9 @@ abstract class _WorkoutLogModel implements WorkoutLogModel {
   const factory _WorkoutLogModel(
       {required final String id,
       required final String userId,
-      required final String dayId,
-      required final String exerciseId,
+      required final String dayName,
       required final DateTime date,
-      required final List<WorkoutSetModel> sets,
+      required final List<PerformedExercise> exercises,
       final String? notes,
       final List<EditHistoryEntry>? editHistory}) = _$WorkoutLogModelImpl;
 
@@ -314,13 +299,11 @@ abstract class _WorkoutLogModel implements WorkoutLogModel {
   @override
   String get userId;
   @override
-  String get dayId;
-  @override
-  String get exerciseId;
+  String get dayName; // Changed from dayId
   @override
   DateTime get date;
   @override
-  List<WorkoutSetModel> get sets;
+  List<PerformedExercise> get exercises; // Changed from exerciseId and sets
   @override
   String? get notes;
   @override
@@ -331,6 +314,183 @@ abstract class _WorkoutLogModel implements WorkoutLogModel {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WorkoutLogModelImplCopyWith<_$WorkoutLogModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+PerformedExercise _$PerformedExerciseFromJson(Map<String, dynamic> json) {
+  return _PerformedExercise.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PerformedExercise {
+  String get exerciseId => throw _privateConstructorUsedError;
+  List<WorkoutSetModel> get sets => throw _privateConstructorUsedError;
+
+  /// Serializes this PerformedExercise to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of PerformedExercise
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $PerformedExerciseCopyWith<PerformedExercise> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PerformedExerciseCopyWith<$Res> {
+  factory $PerformedExerciseCopyWith(
+          PerformedExercise value, $Res Function(PerformedExercise) then) =
+      _$PerformedExerciseCopyWithImpl<$Res, PerformedExercise>;
+  @useResult
+  $Res call({String exerciseId, List<WorkoutSetModel> sets});
+}
+
+/// @nodoc
+class _$PerformedExerciseCopyWithImpl<$Res, $Val extends PerformedExercise>
+    implements $PerformedExerciseCopyWith<$Res> {
+  _$PerformedExerciseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of PerformedExercise
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? exerciseId = null,
+    Object? sets = null,
+  }) {
+    return _then(_value.copyWith(
+      exerciseId: null == exerciseId
+          ? _value.exerciseId
+          : exerciseId // ignore: cast_nullable_to_non_nullable
+              as String,
+      sets: null == sets
+          ? _value.sets
+          : sets // ignore: cast_nullable_to_non_nullable
+              as List<WorkoutSetModel>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PerformedExerciseImplCopyWith<$Res>
+    implements $PerformedExerciseCopyWith<$Res> {
+  factory _$$PerformedExerciseImplCopyWith(_$PerformedExerciseImpl value,
+          $Res Function(_$PerformedExerciseImpl) then) =
+      __$$PerformedExerciseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String exerciseId, List<WorkoutSetModel> sets});
+}
+
+/// @nodoc
+class __$$PerformedExerciseImplCopyWithImpl<$Res>
+    extends _$PerformedExerciseCopyWithImpl<$Res, _$PerformedExerciseImpl>
+    implements _$$PerformedExerciseImplCopyWith<$Res> {
+  __$$PerformedExerciseImplCopyWithImpl(_$PerformedExerciseImpl _value,
+      $Res Function(_$PerformedExerciseImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PerformedExercise
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? exerciseId = null,
+    Object? sets = null,
+  }) {
+    return _then(_$PerformedExerciseImpl(
+      exerciseId: null == exerciseId
+          ? _value.exerciseId
+          : exerciseId // ignore: cast_nullable_to_non_nullable
+              as String,
+      sets: null == sets
+          ? _value._sets
+          : sets // ignore: cast_nullable_to_non_nullable
+              as List<WorkoutSetModel>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PerformedExerciseImpl implements _PerformedExercise {
+  const _$PerformedExerciseImpl(
+      {required this.exerciseId, required final List<WorkoutSetModel> sets})
+      : _sets = sets;
+
+  factory _$PerformedExerciseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PerformedExerciseImplFromJson(json);
+
+  @override
+  final String exerciseId;
+  final List<WorkoutSetModel> _sets;
+  @override
+  List<WorkoutSetModel> get sets {
+    if (_sets is EqualUnmodifiableListView) return _sets;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_sets);
+  }
+
+  @override
+  String toString() {
+    return 'PerformedExercise(exerciseId: $exerciseId, sets: $sets)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PerformedExerciseImpl &&
+            (identical(other.exerciseId, exerciseId) ||
+                other.exerciseId == exerciseId) &&
+            const DeepCollectionEquality().equals(other._sets, _sets));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, exerciseId, const DeepCollectionEquality().hash(_sets));
+
+  /// Create a copy of PerformedExercise
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PerformedExerciseImplCopyWith<_$PerformedExerciseImpl> get copyWith =>
+      __$$PerformedExerciseImplCopyWithImpl<_$PerformedExerciseImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PerformedExerciseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PerformedExercise implements PerformedExercise {
+  const factory _PerformedExercise(
+      {required final String exerciseId,
+      required final List<WorkoutSetModel> sets}) = _$PerformedExerciseImpl;
+
+  factory _PerformedExercise.fromJson(Map<String, dynamic> json) =
+      _$PerformedExerciseImpl.fromJson;
+
+  @override
+  String get exerciseId;
+  @override
+  List<WorkoutSetModel> get sets;
+
+  /// Create a copy of PerformedExercise
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PerformedExerciseImplCopyWith<_$PerformedExerciseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

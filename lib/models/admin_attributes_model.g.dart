@@ -49,9 +49,8 @@ _$ExerciseModifierImpl _$$ExerciseModifierImplFromJson(
     _$ExerciseModifierImpl(
       id: json['id'] as String,
       name: json['name'] as String,
-      parameters: (json['parameters'] as List<dynamic>)
-          .map((e) => ModifierParameter.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      parameter: $enumDecode(_$ModifierParameterEnumMap, json['parameter']),
+      valueType: $enumDecode(_$ValueTypeEnumMap, json['valueType']),
     );
 
 Map<String, dynamic> _$$ExerciseModifierImplToJson(
@@ -59,21 +58,19 @@ Map<String, dynamic> _$$ExerciseModifierImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'parameters': instance.parameters,
+      'parameter': _$ModifierParameterEnumMap[instance.parameter]!,
+      'valueType': _$ValueTypeEnumMap[instance.valueType]!,
     };
 
-_$ModifierParameterImpl _$$ModifierParameterImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ModifierParameterImpl(
-      name: json['name'] as String,
-      type: json['type'] as String,
-      defaultValue: json['defaultValue'],
-    );
+const _$ModifierParameterEnumMap = {
+  ModifierParameter.reps: 'reps',
+  ModifierParameter.weight: 'weight',
+  ModifierParameter.duration: 'duration',
+  ModifierParameter.distance: 'distance',
+};
 
-Map<String, dynamic> _$$ModifierParameterImplToJson(
-        _$ModifierParameterImpl instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'type': instance.type,
-      'defaultValue': instance.defaultValue,
-    };
+const _$ValueTypeEnumMap = {
+  ValueType.numeric: 'numeric',
+  ValueType.text: 'text',
+  ValueType.boolean: 'boolean',
+};

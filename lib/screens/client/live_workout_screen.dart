@@ -1,248 +1,100 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:test_app/models/day_model.dart'; // Import DayModel
-import 'package:test_app/models/exercise_model.dart';
-import 'package:test_app/providers/providers.dart'; // Import providers
-import 'package:uuid/uuid.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:test_app/models/day_model.dart';
 import 'package:test_app/models/workout_log_model.dart';
-import 'package:test_app/models/workout_set_model.dart'; // Import WorkoutSetModel
+import 'package:test_app/models/workout_set_model.dart';
+import 'package:test_app/services/database_service.dart';
+import 'package:test_app/widgets/client/exercise_name_view.dart';
+import 'package:test_app/widgets/client/workout_set_tracker.dart';
+import 'package:uuid/uuid.dart';
 
-class LiveWorkoutScreen extends ConsumerStatefulWidget {
-  final DayModel day; // Required DayModel parameter
+class LiveWorkoutScreen extends StatefulWidget {
+  final DayModel day;
+
   const LiveWorkoutScreen({super.key, required this.day});
 
   @override
-  ConsumerState<LiveWorkoutScreen> createState() => _LiveWorkoutScreenState();
+  State<LiveWorkoutScreen> createState() => _LiveWorkoutScreenState();
 }
 
-class _LiveWorkoutScreenState extends ConsumerState<LiveWorkoutScreen> {
-  final _formKey = GlobalKey<FormState>();
-  ExerciseModel? _selectedExercise;
-  final TextEditingController _setsController = TextEditingController();
-  final TextEditingController _repsController = TextEditingController();
-  final TextEditingController _weightController = TextEditingController();
-  final TextEditingController _durationController = TextEditingController();
-
-  final List<Map<String, dynamic>> _workoutExercises = [];
+class _LiveWorkoutScreenState extends State<LiveWorkoutScreen> {
+  // Map to store the performed sets for each exercise
+  late Map<String, List<WorkoutSetModel>> _performedExercises;
 
   @override
-  void dispose() {
-    _setsController.dispose();
-    _repsController.dispose();
-    _weightController.dispose();
-    _durationController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    _performedExercises = {
+      for (var exercise in widget.day.exercises) exercise.exerciseId: exercise.sets
+    };
   }
 
-  void _addExerciseToWorkout() {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        _workoutExercises.add({
-          'exercise': _selectedExercise,
-          'sets': int.parse(_setsController.text),
-          'reps': int.parse(_repsController.text),
-          'weight': double.parse(_weightController.text),
-          'duration': _durationController.text.isNotEmpty ? double.parse(_durationController.text) : null,
-        });
-        _selectedExercise = null;
-        _setsController.clear();
-        _repsController.clear();
-        _weightController.clear();
-        _durationController.clear();
-      });
-    }
-  }
+  void _finishWorkout() async {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId == null) return; // Should not happen if user is logged in
 
-  void _saveWorkout() async {
-    if (_workoutExercises.isEmpty) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please add at least one exercise to save the workout.')),
+    final completedExercises = _performedExercises.entries.map((entry) {
+      return PerformedExercise(
+        exerciseId: entry.key,
+        sets: entry.value,
       );
-      return;
-    }
+    }).toList();
 
-    final databaseService = ref.read(databaseServiceProvider);
-    final user = FirebaseAuth.instance.currentUser;
+    final workoutLog = WorkoutLogModel(
+      id: const Uuid().v4(),
+      userId: userId,
+      date: DateTime.now(),
+      dayName: widget.day.name,
+      exercises: completedExercises,
+      editHistory: [],
+    );
 
-    if (user == null) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('User not logged in. Cannot save workout.')),
-      );
-      return;
-    }
+    await DatabaseService().saveWorkoutLog(workoutLog);
 
-    // Create WorkoutLogModel
-    final workoutLogId = const Uuid().v4();
-
-    List<WorkoutLogModel> logsToSave = [];
-    for (var entry in _workoutExercises) {
-      final exercise = entry['exercise'] as ExerciseModel;
-      final sets = [
-        WorkoutSetModel(
-          setNumber: 1, // Assuming one set for simplicity, adjust as needed
-          reps: entry['reps'].toString(),
-          rpe: 'N/A', // RPE not captured in UI, setting to N/A
-        )
-      ];
-
-      logsToSave.add(WorkoutLogModel(
-        id: const Uuid().v4(), // New ID for each log entry
-        userId: user.uid,
-        dayId: widget.day.name, // Use the day name from DayModel
-        exerciseId: exercise.id,
-        date: DateTime.now(),
-        sets: sets,
-        notes: 'Manual workout entry for ${widget.day.name}', // Placeholder
-        editHistory: [],
-      ));
-    }
-
-    try {
-      for (var log in logsToSave) {
-        await databaseService.saveWorkoutLog(log);
-      }
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Workout saved successfully!')),
-      );
-      Navigator.pop(context); // Go back to LogbookScreen
-    } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to save workout: $e')),
-      );
-    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Workout saved successfully!')),
+    );
+    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
-    final exercisesAsyncValue = ref.watch(globalExercisesProvider);
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Workout for ${widget.day.name}'), // Display workout day name
+        title: Text('Workout: ${widget.day.name}'),
+        actions: [
+          TextButton(
+            onPressed: _finishWorkout,
+            child: const Text('FINISH', style: TextStyle(color: Colors.white)),
+          )
+        ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Form(
-              key: _formKey,
+      body: ListView.builder(
+        itemCount: widget.day.exercises.length,
+        itemBuilder: (context, index) {
+          final exerciseInPlan = widget.day.exercises[index];
+          return Card(
+            margin: const EdgeInsets.all(8.0),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  exercisesAsyncValue.when(
-                    data: (exercises) {
-                      return DropdownButtonFormField<ExerciseModel>(
-                        value: _selectedExercise,
-                        hint: const Text('Select Exercise'),
-                        onChanged: (ExerciseModel? newValue) {
-                          setState(() {
-                            _selectedExercise = newValue;
-                          });
-                        },
-                        items: exercises.map<DropdownMenuItem<ExerciseModel>>((ExerciseModel exercise) {
-                          return DropdownMenuItem<ExerciseModel>(
-                            value: exercise,
-                            child: Text(exercise.name),
-                          );
-                        }).toList(),
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Please select an exercise';
-                          }
-                          return null;
-                        },
-                      );
+                  ExerciseNameView(exerciseId: exerciseInPlan.exerciseId),
+                  const SizedBox(height: 16),
+                  WorkoutSetTracker(
+                    exerciseInPlan: exerciseInPlan,
+                    onSetsChanged: (newSets) {
+                      setState(() {
+                        _performedExercises[exerciseInPlan.exerciseId] = newSets;
+                      });
                     },
-                    loading: () => const CircularProgressIndicator(),
-                    error: (error, stack) => Text('Error loading exercises: $error'),
-                  ),
-                  TextFormField(
-                    controller: _setsController,
-                    decoration: const InputDecoration(labelText: 'Sets'),
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter sets';
-                      }
-                      if (int.tryParse(value) == null) {
-                        return 'Please enter a valid number';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _repsController,
-                    decoration: const InputDecoration(labelText: 'Reps'),
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter reps';
-                      }
-                      if (int.tryParse(value) == null) {
-                        return 'Please enter a valid number';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _weightController,
-                    decoration: const InputDecoration(labelText: 'Weight (kg)'),
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter weight';
-                      }
-                      if (double.tryParse(value) == null) {
-                        return 'Please enter a valid number';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _durationController,
-                    decoration: const InputDecoration(labelText: 'Duration (minutes, optional)'),
-                    keyboardType: TextInputType.number,
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _addExerciseToWorkout,
-                    child: const Text('Add Exercise to Workout'),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _workoutExercises.length,
-                itemBuilder: (context, index) {
-                  final exerciseData = _workoutExercises[index];
-                  final exercise = exerciseData['exercise'] as ExerciseModel;
-                  return ListTile(
-                    title: Text(exercise.name),
-                    subtitle: Text('Sets: ${exerciseData['sets']}, Reps: ${exerciseData['reps']}, Weight: ${exerciseData['weight']}kg'),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () {
-                        setState(() {
-                          _workoutExercises.removeAt(index);
-                        });
-                      },
-                    ),
-                  );
-                },
-              ),
-            ),
-            ElevatedButton(
-              onPressed: _saveWorkout,
-              child: const Text('Save Workout'),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

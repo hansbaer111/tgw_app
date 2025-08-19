@@ -25,24 +25,27 @@ class EquipmentType with _$EquipmentType {
   factory EquipmentType.fromJson(Map<String, dynamic> json) => _$EquipmentTypeFromJson(json);
 }
 
+enum ModifierParameter {
+  reps,
+  weight,
+  duration,
+  distance,
+}
+
+enum ValueType {
+  numeric,
+  text,
+  boolean,
+}
+
 @freezed
 class ExerciseModifier with _$ExerciseModifier {
   const factory ExerciseModifier({
     required String id,
     required String name,
-    required List<ModifierParameter> parameters,
+    required ModifierParameter parameter, // Changed to single parameter
+    required ValueType valueType, // Added valueType
   }) = _ExerciseModifier;
 
   factory ExerciseModifier.fromJson(Map<String, dynamic> json) => _$ExerciseModifierFromJson(json);
-}
-
-@freezed
-class ModifierParameter with _$ModifierParameter {
-  const factory ModifierParameter({
-    required String name,
-    required String type, // e.g., 'number', 'text', 'boolean'
-    dynamic defaultValue,
-  }) = _ModifierParameter;
-
-  factory ModifierParameter.fromJson(Map<String, dynamic> json) => _$ModifierParameterFromJson(json);
 }

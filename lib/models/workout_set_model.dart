@@ -7,9 +7,11 @@ part 'workout_set_model.g.dart';
 class WorkoutSetModel with _$WorkoutSetModel {
   const factory WorkoutSetModel({
     required int setNumber,
-    required String reps,
-    required String rpe,
+    required int reps, // Changed to int
+    required double weight, // Added weight
+    String? rpe, // Made optional
     String? notes,
+    @Default(false) bool isCompleted, // Added isCompleted
   }) = _WorkoutSetModel;
 
   factory WorkoutSetModel.fromJson(Map<String, dynamic> json) => _$WorkoutSetModelFromJson(json);

@@ -9,15 +9,24 @@ class WorkoutLogModel with _$WorkoutLogModel {
   const factory WorkoutLogModel({
     required String id,
     required String userId,
-    required String dayId,
-    required String exerciseId,
+    required String dayName, // Changed from dayId
     required DateTime date,
-    required List<WorkoutSetModel> sets,
+    required List<PerformedExercise> exercises, // Changed from exerciseId and sets
     String? notes,
     List<EditHistoryEntry>? editHistory,
   }) = _WorkoutLogModel;
 
   factory WorkoutLogModel.fromJson(Map<String, dynamic> json) => _$WorkoutLogModelFromJson(json);
+}
+
+@freezed
+class PerformedExercise with _$PerformedExercise {
+  const factory PerformedExercise({
+    required String exerciseId,
+    required List<WorkoutSetModel> sets,
+  }) = _PerformedExercise;
+
+  factory PerformedExercise.fromJson(Map<String, dynamic> json) => _$PerformedExerciseFromJson(json);
 }
 
 @freezed

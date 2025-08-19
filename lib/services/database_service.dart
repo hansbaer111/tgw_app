@@ -9,8 +9,12 @@ import 'package:test_app/models/workout_log_model.dart'; // Import WorkoutLogMod
 import 'package:test_app/models/workout_template_model.dart'; // Import WorkoutTemplateModel
 
 class DatabaseService {
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _db;
+  final FirebaseAuth _auth;
+
+  DatabaseService({FirebaseFirestore? db, FirebaseAuth? auth})
+      : _db = db ?? FirebaseFirestore.instance,
+        _auth = auth ?? FirebaseAuth.instance;
 
   Future<UserCredential> signIn({required String email, required String password}) async {
     return await _auth.signInWithEmailAndPassword(email: email, password: password);
@@ -61,6 +65,118 @@ class DatabaseService {
     List<String> muscleGroups = List.from(model.muscleGroups);
     muscleGroups.remove(attributeName);
     await docRef.update({'muscleGroups': muscleGroups});
+  }
+
+  // Methods for Equipment Type Management
+  Future<void> addEquipmentType(String newEquipment) {
+    final docRef = _db.collection('admin').doc('attributes');
+    return docRef.update({
+      'equipmentTypes': FieldValue.arrayUnion([newEquipment])
+    });
+  }
+
+  Future<void> updateEquipmentType(String oldEquipment, String newEquipment) async {
+    final docRef = _db.collection('admin').doc('attributes');
+    final doc = await docRef.get();
+    if (doc.exists) {
+      final model = AdminAttributesModel.fromJson(doc.data()!);
+      final updatedList = model.equipmentTypes.map((e) => e == oldEquipment ? newEquipment : e).toList();
+      await docRef.update({'equipmentTypes': updatedList});
+    }
+  }
+
+  Future<void> deleteEquipmentType(String equipmentToDelete) {
+    final docRef = _db.collection('admin').doc('attributes');
+    return docRef.update({
+      'equipmentTypes': FieldValue.arrayRemove([equipmentToDelete])
+    });
+  }
+
+  // Methods for Movement Pattern Management
+  Future<void> addMovementPattern(String newPattern) {
+    final docRef = _db.collection('admin').doc('attributes');
+    return docRef.update({
+      'movementPatterns': FieldValue.arrayUnion([newPattern])
+    });
+  }
+
+  Future<void> updateMovementPattern(String oldPattern, String newPattern) async {
+    final docRef = _db.collection('admin').doc('attributes');
+    final doc = await docRef.get();
+    if (doc.exists) {
+      final model = AdminAttributesModel.fromJson(doc.data()!);
+      final updatedList = model.movementPatterns.map((e) => e == oldPattern ? newPattern : e).toList();
+      await docRef.update({'movementPatterns': updatedList});
+    }
+  }
+
+  Future<void> deleteMovementPattern(String patternToDelete) {
+    final docRef = _db.collection('admin').doc('attributes');
+    return docRef.update({
+      'movementPatterns': FieldValue.arrayRemove([patternToDelete])
+    });
+  }
+
+  // Methods for Muscle Group Management
+  Future<void> addMuscleGroup(String newMuscleGroup) {
+    final docRef = _db.collection('admin').doc('attributes');
+    return docRef.update({
+      'muscleGroups': FieldValue.arrayUnion([newMuscleGroup])
+    });
+  }
+
+  // Methods for Exercise Modifier Management
+  Future<void> addExerciseModifier(ExerciseModifier newModifier) async {
+    final docRef = _db.collection('admin').doc('attributes');
+    final doc = await docRef.get();
+    if (doc.exists) {
+      final model = AdminAttributesModel.fromJson(doc.data()!);
+      final updatedList = [...model.exerciseModifiers, newModifier];
+      await docRef.update({'exerciseModifiers': updatedList.map((e) => e.toJson()).toList()});
+    }
+  }
+
+  Future<void> updateExerciseModifier(ExerciseModifier updatedModifier) async {
+    final docRef = _db.collection('admin').doc('attributes');
+    final doc = await docRef.get();
+    if (doc.exists) {
+      final model = AdminAttributesModel.fromJson(doc.data()!);
+      final updatedList = model.exerciseModifiers.map((e) => e.id == updatedModifier.id ? updatedModifier : e).toList();
+      await docRef.update({'exerciseModifiers': updatedList.map((e) => e.toJson()).toList()});
+    }
+  }
+
+  Future<void> deleteExerciseModifier(String modifierId) async {
+    final docRef = _db.collection('admin').doc('attributes');
+    final doc = await docRef.get();
+    if (doc.exists) {
+      final model = AdminAttributesModel.fromJson(doc.data()!);
+      final updatedList = model.exerciseModifiers.where((e) => e.id != modifierId).toList();
+      await docRef.update({'exerciseModifiers': updatedList.map((e) => e.toJson()).toList()});
+    }
+  }
+
+  Future<void> assignPlanToClient(ClientPlanModel plan) async {
+    await _db.collection('clientPlans').doc(plan.id).set(plan.toJson());
+  }
+
+  Future<int> getTotalWorkoutLogsCount() async {
+    final snapshot = await _db.collection('workoutLogs').count().get();
+    return snapshot.count ?? 0;
+  }
+
+  Stream<List<WorkoutLogModel>> getAllWorkoutLogs() {
+    return _db.collection('workoutLogs').snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => WorkoutLogModel.fromJson(doc.data() as Map<String, dynamic>)).toList();
+    });
+  }
+
+  Future<ExerciseModel?> getExerciseById(String id) async {
+    final doc = await _db.collection('exercises').doc(id).get();
+    if (doc.exists) {
+      return ExerciseModel.fromJson(doc.data()!);
+    }
+    return null;
   }
 
   Future<List<ExerciseModel>> getGlobalExercises() async {
@@ -134,6 +250,16 @@ class DatabaseService {
   Stream<List<ConversationModel>> getAdminConversationsStream(String adminId) {
     return _db.collection('conversations')
         .where('participantIds', arrayContains: adminId)
+        .orderBy('lastMessageTimestamp', descending: true)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) => ConversationModel.fromJson(doc.data() as Map<String, dynamic>)).toList();
+    });
+  }
+
+  Stream<List<ConversationModel>> getClientConversationsStream(String userId) {
+    return _db.collection('conversations')
+        .where('participantIds', arrayContains: userId)
         .orderBy('lastMessageTimestamp', descending: true)
         .snapshots()
         .map((snapshot) {

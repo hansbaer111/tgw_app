@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 import 'package:test_app/providers/providers.dart'; // Import providers
 
 class ChatScreen extends ConsumerStatefulWidget {
@@ -43,6 +44,16 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
         'senderName': user.displayName ?? 'Anonymous',
         'message': messageText,
         'timestamp': FieldValue.serverTimestamp(),
+      });
+
+      // Update last message and timestamp in conversation document
+      await FirebaseFirestore.instance
+          .collection('conversations')
+          .doc(widget.conversationId)
+          .update({
+        'lastMessage': messageText,
+        'lastMessageTimestamp': FieldValue.serverTimestamp(),
+        'lastMessageSenderId': user.uid,
       });
 
       _scrollController.animateTo(
@@ -120,7 +131,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                             Text(message['message']),
                             if (message['timestamp'] != null)
                               Text(
-                                (message['timestamp'] as Timestamp).toDate().toString().split('.')[0],
+                                DateFormat('MMM d, yyyy HH:mm').format((message['timestamp'] as Timestamp).toDate()),
                                 style: const TextStyle(fontSize: 10, color: Colors.black54),
                               ),
                           ],

@@ -1,38 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:test_app/screens/admin/admin_dashboard_screen.dart';
-import 'package:test_app/screens/admin/analysis_screen.dart';
 import 'package:test_app/screens/admin/attribute_management_screen.dart';
-import 'package:test_app/screens/admin/client_list_screen.dart';
-import 'package:test_app/screens/admin/exercise_management_screen.dart';
-import 'package:test_app/screens/admin/template_library_screen.dart';
+import 'package:test_app/screens/admin/analytics_screen.dart';
+import 'package:test_app/screens/admin/admin_dashboard_screen.dart';
+import 'package:test_app/screens/admin/client_management_screen.dart';
+import 'package:test_app/screens/admin/exercise_library_screen.dart';
+import 'package:test_app/screens/admin/workout_template_editor_screen.dart';
+import 'package:test_app/providers/providers.dart'; // Central providers file
 
-class AdminMainScreen extends ConsumerStatefulWidget {
-  const AdminMainScreen({Key? key}) : super(key: key);
+class AdminMainScreen extends StatefulWidget {
+  const AdminMainScreen({super.key});
 
   @override
-  _AdminMainScreenState createState() => _AdminMainScreenState();
+  State<AdminMainScreen> createState() => _AdminMainScreenState();
 }
 
-class _AdminMainScreenState extends ConsumerState<AdminMainScreen> {
-  int _selectedIndex = 0;
+class _AdminMainScreenState extends State<AdminMainScreen> {
+  Widget _selectedScreen = const Center(child: Text('Dashboard'));
   String _title = 'Admin Dashboard';
 
-  static const List<Widget> _adminScreens = <Widget>[
-    AdminDashboardScreen(),
-    ClientListScreen(),
-    ExerciseManagementScreen(),
-    TemplateLibraryScreen(),
-    AnalysisScreen(),
-    AttributeManagementScreen(),
-  ];
-
-  void _onItemTapped(int index, String title) {
+  void _selectScreen(Widget screen, String title) {
     setState(() {
-      _selectedIndex = index;
+      _selectedScreen = screen;
       _title = title;
     });
-    Navigator.pop(context); // Close the drawer
+    Navigator.of(context).pop(); // Close the drawer
   }
 
   @override
@@ -47,56 +38,47 @@ class _AdminMainScreenState extends ConsumerState<AdminMainScreen> {
           children: [
             const DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.deepPurple,
+                color: Colors.blue,
               ),
               child: Text(
-                'Admin Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
+                'Admin Menü',
+                style: TextStyle(color: Colors.white, fontSize: 24),
               ),
             ),
             ListTile(
               leading: const Icon(Icons.dashboard),
               title: const Text('Dashboard'),
-              selected: _selectedIndex == 0,
-              onTap: () => _onItemTapped(0, 'Admin Dashboard'),
+              onTap: () => _selectScreen(const AdminDashboardScreen(), 'Dashboard'),
             ),
             ListTile(
               leading: const Icon(Icons.people),
               title: const Text('Klienten'),
-              selected: _selectedIndex == 1,
-              onTap: () => _onItemTapped(1, 'Klienten'),
+              onTap: () => _selectScreen(const ClientManagementScreen(), 'Klienten'),
             ),
             ListTile(
               leading: const Icon(Icons.fitness_center),
               title: const Text('Übungs-Bibliothek'),
-              selected: _selectedIndex == 2,
-              onTap: () => _onItemTapped(2, 'Übungs-Bibliothek'),
+              onTap: () => _selectScreen(const ExerciseLibraryScreen(), 'Übungs-Bibliothek'),
             ),
             ListTile(
               leading: const Icon(Icons.assignment),
               title: const Text('Trainingsplan-Vorlagen'),
-              selected: _selectedIndex == 3,
-              onTap: () => _onItemTapped(3, 'Trainingsplan-Vorlagen'),
+              onTap: () => _selectScreen(const WorkoutTemplateEditorScreen(), 'Trainingsplan-Vorlagen'),
             ),
             ListTile(
               leading: const Icon(Icons.analytics),
               title: const Text('Analyse'),
-              selected: _selectedIndex == 4,
-              onTap: () => _onItemTapped(4, 'Analyse'),
+              onTap: () => _selectScreen(const AnalyticsScreen(), 'Analyse'),
             ),
             ListTile(
-              leading: const Icon(Icons.settings),
+              leading: const Icon(Icons.settings_applications),
               title: const Text('Attribute'),
-              selected: _selectedIndex == 5,
-              onTap: () => _onItemTapped(5, 'Attribute Management'),
+              onTap: () => _selectScreen(const AttributeManagementScreen(), 'Attribute'),
             ),
           ],
         ),
       ),
-      body: _adminScreens[_selectedIndex],
+      body: _selectedScreen,
     );
   }
 }
