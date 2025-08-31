@@ -22,7 +22,7 @@ final adminAttributesProvider = FutureProvider<AdminAttributesModel>((ref) {
 });
 
 class AuthWrapper extends ConsumerWidget {
-  const AuthWrapper({Key? key}) : super(key: key);
+  const AuthWrapper({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

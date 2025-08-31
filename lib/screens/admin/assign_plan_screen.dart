@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:test_app/models/client_plan_model.dart';
 import 'package:test_app/models/user_model.dart';
 import 'package:test_app/models/workout_template_model.dart';
-import 'package:test_app/screens/admin/client_management_screen.dart'; // for allUsersProvider
-import 'package:test_app/screens/admin/workout_template_editor_screen.dart'; // for templatesProvider
-import 'package:test_app/services/database_service.dart';
+// for allUsersProvider
+// for templatesProvider
 import 'package:uuid/uuid.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:test_app/providers/providers.dart';

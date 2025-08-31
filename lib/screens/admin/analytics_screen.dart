@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:test_app/models/exercise_model.dart';
 import 'package:test_app/models/user_model.dart';
-import 'package:test_app/models/workout_log_model.dart';
-import 'package:test_app/services/database_service.dart';
 import 'package:test_app/widgets/client/exercise_name_view.dart'; // Reusing this for exercise name
 import 'package:test_app/providers/providers.dart'; // Central providers file
 import 'package:intl/intl.dart';

@@ -5,7 +5,7 @@ import 'package:test_app/screens/admin/admin_dashboard_screen.dart';
 import 'package:test_app/screens/admin/client_management_screen.dart';
 import 'package:test_app/screens/admin/exercise_library_screen.dart';
 import 'package:test_app/screens/admin/workout_template_editor_screen.dart';
-import 'package:test_app/providers/providers.dart'; // Central providers file
+// Central providers file
 
 class AdminMainScreen extends StatefulWidget {
   const AdminMainScreen({super.key});

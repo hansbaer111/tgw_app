@@ -143,8 +143,8 @@ class _AddEditWorkoutTemplateScreenState extends State<AddEditWorkoutTemplateScr
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addDay,
-        child: const Icon(Icons.add),
         tooltip: 'Add Day',
+        child: const Icon(Icons.add),
       ),
     );
   }

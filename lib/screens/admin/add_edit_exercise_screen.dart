@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:test_app/models/admin_attributes_model.dart';
 import 'package:test_app/models/exercise_model.dart';
-import 'package:test_app/services/database_service.dart';
-import 'package:test_app/widgets/admin/equipment_management_tab.dart'; // For provider
+// For provider
 import 'package:uuid/uuid.dart';
 import 'package:test_app/providers/providers.dart';
 

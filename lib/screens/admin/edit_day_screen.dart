@@ -108,8 +108,8 @@ class _EditDayScreenState extends State<EditDayScreen> {
             });
           }
         },
-        child: const Icon(Icons.add),
         tooltip: 'Add Exercise',
+        child: const Icon(Icons.add),
       ),
     );
   }

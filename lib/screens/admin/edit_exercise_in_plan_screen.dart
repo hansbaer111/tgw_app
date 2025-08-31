@@ -67,8 +67,8 @@ class _EditExerciseInPlanScreenState extends State<EditExerciseInPlanScreen> {
             _sets.add(WorkoutSetModel(setNumber: _sets.length + 1, reps: 10, weight: 50)); // Example set
           });
         },
-        child: const Icon(Icons.add),
         tooltip: 'Add Set',
+        child: const Icon(Icons.add),
       ),
     );
   }

@@ -87,8 +87,8 @@ class ClientManagementScreen extends ConsumerWidget {
             builder: (context) => const AssignPlanScreen(),
           ));
         },
-        child: const Icon(Icons.assignment_ind),
         tooltip: 'Assign Plan',
+        child: const Icon(Icons.assignment_ind),
       ),
     );
   }

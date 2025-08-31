@@ -9,7 +9,7 @@ class ChatScreen extends ConsumerStatefulWidget {
   final String conversationId; // ID of the conversation (e.g., clientUserId_adminUserId)
   final String recipientName; // Name of the recipient (Coach or Client)
 
-  const ChatScreen({Key? key, required this.conversationId, required this.recipientName}) : super(key: key);
+  const ChatScreen({super.key, required this.conversationId, required this.recipientName});
 
   @override
   _ChatScreenState createState() => _ChatScreenState();

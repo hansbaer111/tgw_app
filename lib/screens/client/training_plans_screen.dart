@@ -44,7 +44,7 @@ class TrainingPlansScreen extends ConsumerWidget {
                     },
                   ),
                 );
-              }).toList(),
+              }),
             ],
           );
         },

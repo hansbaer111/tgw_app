@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:test_app/models/exercise_model.dart';
-import 'package:test_app/screens/admin/exercise_library_screen.dart'; // For the provider
+// For the provider
 import 'package:test_app/providers/providers.dart';
 
 class SelectExerciseScreen extends ConsumerStatefulWidget {

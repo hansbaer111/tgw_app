@@ -41,7 +41,7 @@ class WorkoutLogDetailScreen extends StatelessWidget {
                         ],
                       ),
                     );
-                  }).toList(),
+                  }),
                 ],
               ),
             ),

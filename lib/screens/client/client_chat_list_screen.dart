@@ -34,7 +34,7 @@ class ClientChatListScreen extends ConsumerWidget {
 
               return recipientUserAsync.when(
                 data: (recipientUser) {
-                  final recipientName = recipientUser?.displayName ?? 'Unknown User';
+                  final recipientName = recipientUser.displayName ?? 'Unknown User';
                   return ListTile(
                     title: Text(recipientName),
                     subtitle: Text(conversation.lastMessage),

@@ -167,7 +167,7 @@ class DatabaseService {
 
   Stream<List<WorkoutLogModel>> getAllWorkoutLogs() {
     return _db.collection('workoutLogs').snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => WorkoutLogModel.fromJson(doc.data() as Map<String, dynamic>)).toList();
+      return snapshot.docs.map((doc) => WorkoutLogModel.fromJson(doc.data())).toList();
     });
   }
 
@@ -230,7 +230,7 @@ class DatabaseService {
 
   Stream<List<WorkoutLogModel>> getWorkoutLogsStream(String userId) {
     return _db.collection('workoutLogs').where('userId', isEqualTo: userId).orderBy('date', descending: true).snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => WorkoutLogModel.fromJson(doc.data() as Map<String, dynamic>)).toList();
+      return snapshot.docs.map((doc) => WorkoutLogModel.fromJson(doc.data())).toList();
     });
   }
 
@@ -253,7 +253,7 @@ class DatabaseService {
         .orderBy('lastMessageTimestamp', descending: true)
         .snapshots()
         .map((snapshot) {
-      return snapshot.docs.map((doc) => ConversationModel.fromJson(doc.data() as Map<String, dynamic>)).toList();
+      return snapshot.docs.map((doc) => ConversationModel.fromJson(doc.data())).toList();
     });
   }
 
@@ -263,7 +263,7 @@ class DatabaseService {
         .orderBy('lastMessageTimestamp', descending: true)
         .snapshots()
         .map((snapshot) {
-      return snapshot.docs.map((doc) => ConversationModel.fromJson(doc.data() as Map<String, dynamic>)).toList();
+      return snapshot.docs.map((doc) => ConversationModel.fromJson(doc.data())).toList();
     });
   }
 }
