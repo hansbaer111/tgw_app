@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'admin_attributes_model.dart'; // Import for ExerciseModifier
+import 'package:test_app/models/admin_attributes_model.dart'; // Import ExerciseModifier
 
 part 'exercise_model.freezed.dart';
 part 'exercise_model.g.dart';
@@ -7,13 +7,14 @@ part 'exercise_model.g.dart';
 @freezed
 class ExerciseModel with _$ExerciseModel {
   const factory ExerciseModel({
-    required String id,
+    required String exerciseId,
+    required String baseExerciseId,
     required String name,
-    required String description,
-    required String ownerId, // Added ownerId
-    required ExerciseTags tags, // Changed to single ExerciseTags object
-    required List<ExerciseModifier> modifiers, // Added modifiers
+    String? description, // Added back
     String? videoUrl,
+    required String ownerId,
+    required ExerciseTags tags,
+    List<ExerciseModifier>? modifiers, // Added back
   }) = _ExerciseModel;
 
   factory ExerciseModel.fromJson(Map<String, dynamic> json) => _$ExerciseModelFromJson(json);
@@ -22,10 +23,10 @@ class ExerciseModel with _$ExerciseModel {
 @freezed
 class ExerciseTags with _$ExerciseTags {
   const factory ExerciseTags({
-    @Default([]) List<String> equipment,
-    @Default([]) List<String> primaryMuscle,
-    @Default([]) List<String> secondaryMuscles,
-    @Default([]) List<String> movementPattern,
+    required String equipment, // Changed to String
+    required String movementPattern, // Changed to String
+    required String primaryMuscle, // Changed to String
+    List<String>? secondaryMuscles,
   }) = _ExerciseTags;
 
   factory ExerciseTags.fromJson(Map<String, dynamic> json) => _$ExerciseTagsFromJson(json);

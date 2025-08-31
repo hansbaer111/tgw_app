@@ -31,7 +31,7 @@ class ExerciseLibraryScreen extends ConsumerWidget {
               final exercise = exercises[index];
               return ListTile(
                 title: Text(exercise.name),
-                subtitle: Text(exercise.tags.primaryMuscle.join(', ')),
+                subtitle: Text(exercise.tags.primaryMuscle),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => AddEditExerciseScreen(exercise: exercise),
@@ -40,7 +40,7 @@ class ExerciseLibraryScreen extends ConsumerWidget {
                 trailing: IconButton(
                   icon: const Icon(Icons.delete, color: Colors.red),
                   onPressed: () async {
-                    await ref.read(databaseServiceProvider).deleteExercise(exercise.id);
+                    await ref.read(databaseServiceProvider).deleteExercise(exercise.exerciseId);
                     ref.refresh(exercisesProvider);
                   },
                 ),

@@ -102,7 +102,7 @@ class _EditDayScreenState extends State<EditDayScreen> {
           if (selectedExercise != null) {
             setState(() {
               _exercises.add(ExerciseInPlanModel(
-                exerciseId: selectedExercise.id,
+                exerciseId: selectedExercise.exerciseId,
                 sets: [], // Default with empty sets
               ));
             });

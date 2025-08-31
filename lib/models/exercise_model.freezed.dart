@@ -20,15 +20,14 @@ ExerciseModel _$ExerciseModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ExerciseModel {
-  String get id => throw _privateConstructorUsedError;
+  String get exerciseId => throw _privateConstructorUsedError;
+  String get baseExerciseId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
-  String get ownerId => throw _privateConstructorUsedError; // Added ownerId
-  ExerciseTags get tags =>
-      throw _privateConstructorUsedError; // Changed to single ExerciseTags object
-  List<ExerciseModifier> get modifiers =>
-      throw _privateConstructorUsedError; // Added modifiers
+  String? get description => throw _privateConstructorUsedError; // Added back
   String? get videoUrl => throw _privateConstructorUsedError;
+  String get ownerId => throw _privateConstructorUsedError;
+  ExerciseTags get tags => throw _privateConstructorUsedError;
+  List<ExerciseModifier>? get modifiers => throw _privateConstructorUsedError;
 
   /// Serializes this ExerciseModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -47,13 +46,14 @@ abstract class $ExerciseModelCopyWith<$Res> {
       _$ExerciseModelCopyWithImpl<$Res, ExerciseModel>;
   @useResult
   $Res call(
-      {String id,
+      {String exerciseId,
+      String baseExerciseId,
       String name,
-      String description,
+      String? description,
+      String? videoUrl,
       String ownerId,
       ExerciseTags tags,
-      List<ExerciseModifier> modifiers,
-      String? videoUrl});
+      List<ExerciseModifier>? modifiers});
 
   $ExerciseTagsCopyWith<$Res> get tags;
 }
@@ -73,27 +73,36 @@ class _$ExerciseModelCopyWithImpl<$Res, $Val extends ExerciseModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? exerciseId = null,
+    Object? baseExerciseId = null,
     Object? name = null,
-    Object? description = null,
+    Object? description = freezed,
+    Object? videoUrl = freezed,
     Object? ownerId = null,
     Object? tags = null,
-    Object? modifiers = null,
-    Object? videoUrl = freezed,
+    Object? modifiers = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      exerciseId: null == exerciseId
+          ? _value.exerciseId
+          : exerciseId // ignore: cast_nullable_to_non_nullable
+              as String,
+      baseExerciseId: null == baseExerciseId
+          ? _value.baseExerciseId
+          : baseExerciseId // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      description: null == description
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      videoUrl: freezed == videoUrl
+          ? _value.videoUrl
+          : videoUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       ownerId: null == ownerId
           ? _value.ownerId
           : ownerId // ignore: cast_nullable_to_non_nullable
@@ -102,14 +111,10 @@ class _$ExerciseModelCopyWithImpl<$Res, $Val extends ExerciseModel>
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as ExerciseTags,
-      modifiers: null == modifiers
+      modifiers: freezed == modifiers
           ? _value.modifiers
           : modifiers // ignore: cast_nullable_to_non_nullable
-              as List<ExerciseModifier>,
-      videoUrl: freezed == videoUrl
-          ? _value.videoUrl
-          : videoUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<ExerciseModifier>?,
     ) as $Val);
   }
 
@@ -133,13 +138,14 @@ abstract class _$$ExerciseModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
+      {String exerciseId,
+      String baseExerciseId,
       String name,
-      String description,
+      String? description,
+      String? videoUrl,
       String ownerId,
       ExerciseTags tags,
-      List<ExerciseModifier> modifiers,
-      String? videoUrl});
+      List<ExerciseModifier>? modifiers});
 
   @override
   $ExerciseTagsCopyWith<$Res> get tags;
@@ -158,27 +164,36 @@ class __$$ExerciseModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? exerciseId = null,
+    Object? baseExerciseId = null,
     Object? name = null,
-    Object? description = null,
+    Object? description = freezed,
+    Object? videoUrl = freezed,
     Object? ownerId = null,
     Object? tags = null,
-    Object? modifiers = null,
-    Object? videoUrl = freezed,
+    Object? modifiers = freezed,
   }) {
     return _then(_$ExerciseModelImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      exerciseId: null == exerciseId
+          ? _value.exerciseId
+          : exerciseId // ignore: cast_nullable_to_non_nullable
+              as String,
+      baseExerciseId: null == baseExerciseId
+          ? _value.baseExerciseId
+          : baseExerciseId // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      description: null == description
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      videoUrl: freezed == videoUrl
+          ? _value.videoUrl
+          : videoUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       ownerId: null == ownerId
           ? _value.ownerId
           : ownerId // ignore: cast_nullable_to_non_nullable
@@ -187,14 +202,10 @@ class __$$ExerciseModelImplCopyWithImpl<$Res>
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as ExerciseTags,
-      modifiers: null == modifiers
+      modifiers: freezed == modifiers
           ? _value._modifiers
           : modifiers // ignore: cast_nullable_to_non_nullable
-              as List<ExerciseModifier>,
-      videoUrl: freezed == videoUrl
-          ? _value.videoUrl
-          : videoUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<ExerciseModifier>?,
     ));
   }
 }
@@ -203,46 +214,47 @@ class __$$ExerciseModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ExerciseModelImpl implements _ExerciseModel {
   const _$ExerciseModelImpl(
-      {required this.id,
+      {required this.exerciseId,
+      required this.baseExerciseId,
       required this.name,
-      required this.description,
+      this.description,
+      this.videoUrl,
       required this.ownerId,
       required this.tags,
-      required final List<ExerciseModifier> modifiers,
-      this.videoUrl})
+      final List<ExerciseModifier>? modifiers})
       : _modifiers = modifiers;
 
   factory _$ExerciseModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ExerciseModelImplFromJson(json);
 
   @override
-  final String id;
+  final String exerciseId;
+  @override
+  final String baseExerciseId;
   @override
   final String name;
   @override
-  final String description;
-  @override
-  final String ownerId;
-// Added ownerId
-  @override
-  final ExerciseTags tags;
-// Changed to single ExerciseTags object
-  final List<ExerciseModifier> _modifiers;
-// Changed to single ExerciseTags object
-  @override
-  List<ExerciseModifier> get modifiers {
-    if (_modifiers is EqualUnmodifiableListView) return _modifiers;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_modifiers);
-  }
-
-// Added modifiers
+  final String? description;
+// Added back
   @override
   final String? videoUrl;
+  @override
+  final String ownerId;
+  @override
+  final ExerciseTags tags;
+  final List<ExerciseModifier>? _modifiers;
+  @override
+  List<ExerciseModifier>? get modifiers {
+    final value = _modifiers;
+    if (value == null) return null;
+    if (_modifiers is EqualUnmodifiableListView) return _modifiers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'ExerciseModel(id: $id, name: $name, description: $description, ownerId: $ownerId, tags: $tags, modifiers: $modifiers, videoUrl: $videoUrl)';
+    return 'ExerciseModel(exerciseId: $exerciseId, baseExerciseId: $baseExerciseId, name: $name, description: $description, videoUrl: $videoUrl, ownerId: $ownerId, tags: $tags, modifiers: $modifiers)';
   }
 
   @override
@@ -250,22 +262,33 @@ class _$ExerciseModelImpl implements _ExerciseModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ExerciseModelImpl &&
-            (identical(other.id, id) || other.id == id) &&
+            (identical(other.exerciseId, exerciseId) ||
+                other.exerciseId == exerciseId) &&
+            (identical(other.baseExerciseId, baseExerciseId) ||
+                other.baseExerciseId == baseExerciseId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.videoUrl, videoUrl) ||
+                other.videoUrl == videoUrl) &&
             (identical(other.ownerId, ownerId) || other.ownerId == ownerId) &&
             (identical(other.tags, tags) || other.tags == tags) &&
             const DeepCollectionEquality()
-                .equals(other._modifiers, _modifiers) &&
-            (identical(other.videoUrl, videoUrl) ||
-                other.videoUrl == videoUrl));
+                .equals(other._modifiers, _modifiers));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, description, ownerId,
-      tags, const DeepCollectionEquality().hash(_modifiers), videoUrl);
+  int get hashCode => Object.hash(
+      runtimeType,
+      exerciseId,
+      baseExerciseId,
+      name,
+      description,
+      videoUrl,
+      ownerId,
+      tags,
+      const DeepCollectionEquality().hash(_modifiers));
 
   /// Create a copy of ExerciseModel
   /// with the given fields replaced by the non-null parameter values.
@@ -285,31 +308,34 @@ class _$ExerciseModelImpl implements _ExerciseModel {
 
 abstract class _ExerciseModel implements ExerciseModel {
   const factory _ExerciseModel(
-      {required final String id,
+      {required final String exerciseId,
+      required final String baseExerciseId,
       required final String name,
-      required final String description,
+      final String? description,
+      final String? videoUrl,
       required final String ownerId,
       required final ExerciseTags tags,
-      required final List<ExerciseModifier> modifiers,
-      final String? videoUrl}) = _$ExerciseModelImpl;
+      final List<ExerciseModifier>? modifiers}) = _$ExerciseModelImpl;
 
   factory _ExerciseModel.fromJson(Map<String, dynamic> json) =
       _$ExerciseModelImpl.fromJson;
 
   @override
-  String get id;
+  String get exerciseId;
+  @override
+  String get baseExerciseId;
   @override
   String get name;
   @override
-  String get description;
-  @override
-  String get ownerId; // Added ownerId
-  @override
-  ExerciseTags get tags; // Changed to single ExerciseTags object
-  @override
-  List<ExerciseModifier> get modifiers; // Added modifiers
+  String? get description; // Added back
   @override
   String? get videoUrl;
+  @override
+  String get ownerId;
+  @override
+  ExerciseTags get tags;
+  @override
+  List<ExerciseModifier>? get modifiers;
 
   /// Create a copy of ExerciseModel
   /// with the given fields replaced by the non-null parameter values.
@@ -325,10 +351,13 @@ ExerciseTags _$ExerciseTagsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ExerciseTags {
-  List<String> get equipment => throw _privateConstructorUsedError;
-  List<String> get primaryMuscle => throw _privateConstructorUsedError;
-  List<String> get secondaryMuscles => throw _privateConstructorUsedError;
-  List<String> get movementPattern => throw _privateConstructorUsedError;
+  String get equipment =>
+      throw _privateConstructorUsedError; // Changed to String
+  String get movementPattern =>
+      throw _privateConstructorUsedError; // Changed to String
+  String get primaryMuscle =>
+      throw _privateConstructorUsedError; // Changed to String
+  List<String>? get secondaryMuscles => throw _privateConstructorUsedError;
 
   /// Serializes this ExerciseTags to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -347,10 +376,10 @@ abstract class $ExerciseTagsCopyWith<$Res> {
       _$ExerciseTagsCopyWithImpl<$Res, ExerciseTags>;
   @useResult
   $Res call(
-      {List<String> equipment,
-      List<String> primaryMuscle,
-      List<String> secondaryMuscles,
-      List<String> movementPattern});
+      {String equipment,
+      String movementPattern,
+      String primaryMuscle,
+      List<String>? secondaryMuscles});
 }
 
 /// @nodoc
@@ -369,27 +398,27 @@ class _$ExerciseTagsCopyWithImpl<$Res, $Val extends ExerciseTags>
   @override
   $Res call({
     Object? equipment = null,
-    Object? primaryMuscle = null,
-    Object? secondaryMuscles = null,
     Object? movementPattern = null,
+    Object? primaryMuscle = null,
+    Object? secondaryMuscles = freezed,
   }) {
     return _then(_value.copyWith(
       equipment: null == equipment
           ? _value.equipment
           : equipment // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      primaryMuscle: null == primaryMuscle
-          ? _value.primaryMuscle
-          : primaryMuscle // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      secondaryMuscles: null == secondaryMuscles
-          ? _value.secondaryMuscles
-          : secondaryMuscles // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as String,
       movementPattern: null == movementPattern
           ? _value.movementPattern
           : movementPattern // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as String,
+      primaryMuscle: null == primaryMuscle
+          ? _value.primaryMuscle
+          : primaryMuscle // ignore: cast_nullable_to_non_nullable
+              as String,
+      secondaryMuscles: freezed == secondaryMuscles
+          ? _value.secondaryMuscles
+          : secondaryMuscles // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ) as $Val);
   }
 }
@@ -403,10 +432,10 @@ abstract class _$$ExerciseTagsImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<String> equipment,
-      List<String> primaryMuscle,
-      List<String> secondaryMuscles,
-      List<String> movementPattern});
+      {String equipment,
+      String movementPattern,
+      String primaryMuscle,
+      List<String>? secondaryMuscles});
 }
 
 /// @nodoc
@@ -423,27 +452,27 @@ class __$$ExerciseTagsImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? equipment = null,
-    Object? primaryMuscle = null,
-    Object? secondaryMuscles = null,
     Object? movementPattern = null,
+    Object? primaryMuscle = null,
+    Object? secondaryMuscles = freezed,
   }) {
     return _then(_$ExerciseTagsImpl(
       equipment: null == equipment
-          ? _value._equipment
+          ? _value.equipment
           : equipment // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as String,
+      movementPattern: null == movementPattern
+          ? _value.movementPattern
+          : movementPattern // ignore: cast_nullable_to_non_nullable
+              as String,
       primaryMuscle: null == primaryMuscle
-          ? _value._primaryMuscle
+          ? _value.primaryMuscle
           : primaryMuscle // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      secondaryMuscles: null == secondaryMuscles
+              as String,
+      secondaryMuscles: freezed == secondaryMuscles
           ? _value._secondaryMuscles
           : secondaryMuscles // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      movementPattern: null == movementPattern
-          ? _value._movementPattern
-          : movementPattern // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<String>?,
     ));
   }
 }
@@ -452,58 +481,39 @@ class __$$ExerciseTagsImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ExerciseTagsImpl implements _ExerciseTags {
   const _$ExerciseTagsImpl(
-      {final List<String> equipment = const [],
-      final List<String> primaryMuscle = const [],
-      final List<String> secondaryMuscles = const [],
-      final List<String> movementPattern = const []})
-      : _equipment = equipment,
-        _primaryMuscle = primaryMuscle,
-        _secondaryMuscles = secondaryMuscles,
-        _movementPattern = movementPattern;
+      {required this.equipment,
+      required this.movementPattern,
+      required this.primaryMuscle,
+      final List<String>? secondaryMuscles})
+      : _secondaryMuscles = secondaryMuscles;
 
   factory _$ExerciseTagsImpl.fromJson(Map<String, dynamic> json) =>
       _$$ExerciseTagsImplFromJson(json);
 
-  final List<String> _equipment;
   @override
-  @JsonKey()
-  List<String> get equipment {
-    if (_equipment is EqualUnmodifiableListView) return _equipment;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_equipment);
-  }
-
-  final List<String> _primaryMuscle;
+  final String equipment;
+// Changed to String
   @override
-  @JsonKey()
-  List<String> get primaryMuscle {
-    if (_primaryMuscle is EqualUnmodifiableListView) return _primaryMuscle;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_primaryMuscle);
-  }
-
-  final List<String> _secondaryMuscles;
+  final String movementPattern;
+// Changed to String
   @override
-  @JsonKey()
-  List<String> get secondaryMuscles {
+  final String primaryMuscle;
+// Changed to String
+  final List<String>? _secondaryMuscles;
+// Changed to String
+  @override
+  List<String>? get secondaryMuscles {
+    final value = _secondaryMuscles;
+    if (value == null) return null;
     if (_secondaryMuscles is EqualUnmodifiableListView)
       return _secondaryMuscles;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_secondaryMuscles);
-  }
-
-  final List<String> _movementPattern;
-  @override
-  @JsonKey()
-  List<String> get movementPattern {
-    if (_movementPattern is EqualUnmodifiableListView) return _movementPattern;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_movementPattern);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
   String toString() {
-    return 'ExerciseTags(equipment: $equipment, primaryMuscle: $primaryMuscle, secondaryMuscles: $secondaryMuscles, movementPattern: $movementPattern)';
+    return 'ExerciseTags(equipment: $equipment, movementPattern: $movementPattern, primaryMuscle: $primaryMuscle, secondaryMuscles: $secondaryMuscles)';
   }
 
   @override
@@ -511,24 +521,20 @@ class _$ExerciseTagsImpl implements _ExerciseTags {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ExerciseTagsImpl &&
+            (identical(other.equipment, equipment) ||
+                other.equipment == equipment) &&
+            (identical(other.movementPattern, movementPattern) ||
+                other.movementPattern == movementPattern) &&
+            (identical(other.primaryMuscle, primaryMuscle) ||
+                other.primaryMuscle == primaryMuscle) &&
             const DeepCollectionEquality()
-                .equals(other._equipment, _equipment) &&
-            const DeepCollectionEquality()
-                .equals(other._primaryMuscle, _primaryMuscle) &&
-            const DeepCollectionEquality()
-                .equals(other._secondaryMuscles, _secondaryMuscles) &&
-            const DeepCollectionEquality()
-                .equals(other._movementPattern, _movementPattern));
+                .equals(other._secondaryMuscles, _secondaryMuscles));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_equipment),
-      const DeepCollectionEquality().hash(_primaryMuscle),
-      const DeepCollectionEquality().hash(_secondaryMuscles),
-      const DeepCollectionEquality().hash(_movementPattern));
+  int get hashCode => Object.hash(runtimeType, equipment, movementPattern,
+      primaryMuscle, const DeepCollectionEquality().hash(_secondaryMuscles));
 
   /// Create a copy of ExerciseTags
   /// with the given fields replaced by the non-null parameter values.
@@ -548,22 +554,22 @@ class _$ExerciseTagsImpl implements _ExerciseTags {
 
 abstract class _ExerciseTags implements ExerciseTags {
   const factory _ExerciseTags(
-      {final List<String> equipment,
-      final List<String> primaryMuscle,
-      final List<String> secondaryMuscles,
-      final List<String> movementPattern}) = _$ExerciseTagsImpl;
+      {required final String equipment,
+      required final String movementPattern,
+      required final String primaryMuscle,
+      final List<String>? secondaryMuscles}) = _$ExerciseTagsImpl;
 
   factory _ExerciseTags.fromJson(Map<String, dynamic> json) =
       _$ExerciseTagsImpl.fromJson;
 
   @override
-  List<String> get equipment;
+  String get equipment; // Changed to String
   @override
-  List<String> get primaryMuscle;
+  String get movementPattern; // Changed to String
   @override
-  List<String> get secondaryMuscles;
+  String get primaryMuscle; // Changed to String
   @override
-  List<String> get movementPattern;
+  List<String>? get secondaryMuscles;
 
   /// Create a copy of ExerciseTags
   /// with the given fields replaced by the non-null parameter values.

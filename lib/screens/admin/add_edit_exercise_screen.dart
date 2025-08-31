@@ -41,11 +41,11 @@ class _AddEditExerciseScreenState extends ConsumerState<AddEditExerciseScreen> {
     _videoUrlController = TextEditingController(text: widget.exercise?.videoUrl);
 
     if (widget.exercise != null) {
-      _selectedEquipment = widget.exercise!.tags.equipment.isNotEmpty ? widget.exercise!.tags.equipment.first : null;
-      _selectedMuscleGroup = widget.exercise!.tags.primaryMuscle.isNotEmpty ? widget.exercise!.tags.primaryMuscle.first : null;
-      _selectedMovementPattern = widget.exercise!.tags.movementPattern.isNotEmpty ? widget.exercise!.tags.movementPattern.first : null;
-      _selectedSecondaryMuscles = List.from(widget.exercise!.tags.secondaryMuscles);
-      _selectedModifiers = List.from(widget.exercise!.modifiers);
+      _selectedEquipment = widget.exercise!.tags.equipment;
+      _selectedMuscleGroup = widget.exercise!.tags.primaryMuscle;
+      _selectedMovementPattern = widget.exercise!.tags.movementPattern;
+      _selectedSecondaryMuscles = widget.exercise!.tags.secondaryMuscles ?? [];
+      _selectedModifiers = widget.exercise!.modifiers ?? [];
     }
   }
 
@@ -60,16 +60,17 @@ class _AddEditExerciseScreenState extends ConsumerState<AddEditExerciseScreen> {
   Future<void> _saveExercise() async {
     if (_formKey.currentState!.validate()) {
       final newExercise = ExerciseModel(
-        id: widget.exercise?.id ?? const Uuid().v4(),
+        exerciseId: widget.exercise?.exerciseId ?? const Uuid().v4(),
+        baseExerciseId: '', // Default value, adjust if needed
         name: _nameController.text,
         description: _descriptionController.text,
         videoUrl: _videoUrlController.text,
         ownerId: 'global', // All exercises created by admin are global
         tags: ExerciseTags(
-          equipment: _selectedEquipment != null ? [_selectedEquipment!] : [],
-          primaryMuscle: _selectedMuscleGroup != null ? [_selectedMuscleGroup!] : [],
+          equipment: _selectedEquipment!,
+          primaryMuscle: _selectedMuscleGroup!,
           secondaryMuscles: _selectedSecondaryMuscles,
-          movementPattern: _selectedMovementPattern != null ? [_selectedMovementPattern!] : [],
+          movementPattern: _selectedMovementPattern!,
         ),
         modifiers: _selectedModifiers,
       );

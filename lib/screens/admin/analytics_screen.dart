@@ -75,7 +75,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
                   // Filter logs by selected client and exercise
                   final filteredLogs = logs.where((log) {
                     return (_selectedClient == null || log.userId == _selectedClient!.uid) &&
-                           (_selectedExercise == null || log.exercises.any((ex) => ex.exerciseId == _selectedExercise!.id));
+                           (_selectedExercise == null || log.exercises.any((ex) => ex.exerciseId == _selectedExercise!.exerciseId));
                   }).toList();
 
                   if (filteredLogs.isEmpty) {
@@ -120,7 +120,7 @@ class _AnalyticsScreenState extends ConsumerState<AnalyticsScreen> {
                         .where((log) => log.userId == _selectedClient!.uid)
                         .map((log) {
                           final exerciseEntry = log.exercises.firstWhere(
-                              (ex) => ex.exerciseId == _selectedExercise!.id,
+                              (ex) => ex.exerciseId == _selectedExercise!.exerciseId,
                               orElse: () => throw Exception('Exercise not found in log'));
                           double volume = 0;
                           for (var set in exerciseEntry.sets) {

@@ -46,7 +46,17 @@ class DatabaseService {
 
   Future<AdminAttributesModel> getAdminAttributes() async {
     DocumentSnapshot doc = await _db.collection('admin').doc('attributes').get();
-    return AdminAttributesModel.fromJson(doc.data() as Map<String, dynamic>);
+    if (doc.exists && doc.data() != null) {
+      return AdminAttributesModel.fromJson(doc.data() as Map<String, dynamic>);
+    } else {
+      // Return a default, empty model if the document doesn't exist
+      return const AdminAttributesModel(
+        equipmentTypes: [],
+        movementPatterns: [],
+        muscleGroups: [],
+        exerciseModifiers: [],
+      );
+    }
   }
 
   Future<void> updateMuscleGroup(int index, String newValue) async {
@@ -199,11 +209,11 @@ class DatabaseService {
   }
 
   Future<void> addExercise(ExerciseModel exercise) async {
-    await _db.collection('exercises').doc(exercise.id).set(exercise.toJson());
+    await _db.collection('exercises').doc(exercise.exerciseId).set(exercise.toJson());
   }
 
   Future<void> updateExercise(ExerciseModel exercise) async {
-    await _db.collection('exercises').doc(exercise.id).update(exercise.toJson());
+    await _db.collection('exercises').doc(exercise.exerciseId).update(exercise.toJson());
   }
 
   Future<void> deleteExercise(String exerciseId) async {
